@@ -44,24 +44,14 @@ const SplitText: React.FC<SplitTextProps> = ({
     },
   };
 
-  const child: Variants = {
-    visible: {
-      opacity: animationTo.opacity ?? 1,
-      y: animationTo.y ?? 0,
-      transition: {
-        type: 'spring' as const,
-        damping: 12,
-        stiffness: 100,
-      },
-    },
+  const child = {
     hidden: {
       opacity: animationFrom.opacity ?? 0,
       y: animationFrom.y ?? 20,
-      transition: {
-        type: 'spring' as const,
-        damping: 12,
-        stiffness: 100,
-      },
+    },
+    visible: {
+      opacity: animationTo.opacity ?? 1,
+      y: animationTo.y ?? 0,
     },
   };
 
@@ -87,7 +77,12 @@ const SplitText: React.FC<SplitTextProps> = ({
       style={{ display: 'inline-block' }}
     >
       {letters.map((letter, index) => (
-        <motion.span variants={child} key={index} style={{ display: 'inline-block' }}>
+        <motion.span 
+          variants={child} 
+          key={index} 
+          style={{ display: 'inline-block' }}
+          transition={{ type: 'spring', damping: 12, stiffness: 100 }}
+        >
           {letter === " " ? "\u00A0" : letter}
         </motion.span>
       ))}
