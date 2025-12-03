@@ -49,7 +49,7 @@ const SplitText: React.FC<SplitTextProps> = ({
       opacity: animationTo.opacity ?? 1,
       y: animationTo.y ?? 0,
       transition: {
-        type: 'spring' as const, // ✅ 'as const' eklendi
+        type: 'spring' as const,
         damping: 12,
         stiffness: 100,
       },
@@ -58,7 +58,7 @@ const SplitText: React.FC<SplitTextProps> = ({
       opacity: animationFrom.opacity ?? 0,
       y: animationFrom.y ?? 20,
       transition: {
-        type: 'spring' as const, // ✅ 'as const' eklendi
+        type: 'spring' as const,
         damping: 12,
         stiffness: 100,
       },
