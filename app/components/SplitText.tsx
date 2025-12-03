@@ -2,7 +2,15 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import { motion, useInView, useAnimation, type Variants, type Transition } from 'framer-motion';
+import {
+  motion,
+  useInView,
+  useAnimation,
+  type Variants,
+  type Transition,
+} from 'framer-motion';
+
+type RootMargin = NonNullable<Parameters<typeof useInView>[1]>['margin'];
 
 interface SplitTextProps {
   text: string;
@@ -12,15 +20,9 @@ interface SplitTextProps {
   animationTo?: Record<string, any>;
   easing?: number[];
   threshold?: number;
-  rootMargin?: string;
+  rootMargin?: RootMargin;
   onLetterAnimationComplete?: () => void;
 }
-
-const letterTransition: Transition = {
-  type: 'spring',
-  damping: 12,
-  stiffness: 100,
-};
 
 const SplitText: React.FC<SplitTextProps> = ({
   text,
@@ -30,7 +32,7 @@ const SplitText: React.FC<SplitTextProps> = ({
   animationTo = { opacity: 1, y: 0 },
   easing = [0.42, 0, 0.58, 1],
   threshold = 0.1,
-  rootMargin = '-100px',
+  rootMargin = '-100px' as RootMargin,
   onLetterAnimationComplete,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
@@ -48,6 +50,12 @@ const SplitText: React.FC<SplitTextProps> = ({
         staggerChildren: delay / 1000,
       },
     },
+  };
+
+  const letterTransition: Transition = {
+    type: 'spring',
+    damping: 12,
+    stiffness: 100,
   };
 
   const child: Variants = {
@@ -76,11 +84,7 @@ const SplitText: React.FC<SplitTextProps> = ({
       initial="hidden"
       animate={controls}
       variants={container}
-      onAnimationComplete={() => {
-        if (onLetterAnimationComplete) {
-          onLetterAnimationComplete();
-        }
-      }}
+      onAnimationComplete={onLetterAnimationComplete}
       className={className}
       style={{ display: 'inline-block' }}
     >
