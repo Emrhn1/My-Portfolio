@@ -2,7 +2,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import { motion, useInView, useAnimation, Variants } from 'framer-motion';
+import { motion, useInView, useAnimation, type Variants, type Transition } from 'framer-motion';
 
 interface SplitTextProps {
   text: string;
@@ -15,6 +15,12 @@ interface SplitTextProps {
   rootMargin?: string;
   onLetterAnimationComplete?: () => void;
 }
+
+const letterTransition: Transition = {
+  type: 'spring',
+  damping: 12,
+  stiffness: 100,
+};
 
 const SplitText: React.FC<SplitTextProps> = ({
   text,
@@ -44,14 +50,16 @@ const SplitText: React.FC<SplitTextProps> = ({
     },
   };
 
-  const child = {
+  const child: Variants = {
     hidden: {
       opacity: animationFrom.opacity ?? 0,
       y: animationFrom.y ?? 20,
+      transition: letterTransition,
     },
     visible: {
       opacity: animationTo.opacity ?? 1,
       y: animationTo.y ?? 0,
+      transition: letterTransition,
     },
   };
 
@@ -77,13 +85,12 @@ const SplitText: React.FC<SplitTextProps> = ({
       style={{ display: 'inline-block' }}
     >
       {letters.map((letter, index) => (
-        <motion.span 
-          variants={child} 
-          key={index} 
+        <motion.span
+          key={index}
+          variants={child}
           style={{ display: 'inline-block' }}
-          transition={{ type: 'spring', damping: 12, stiffness: 100 }}
         >
-          {letter === " " ? "\u00A0" : letter}
+          {letter === ' ' ? '\u00A0' : letter}
         </motion.span>
       ))}
     </motion.div>
