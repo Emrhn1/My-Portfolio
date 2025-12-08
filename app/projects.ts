@@ -1,7 +1,15 @@
 import { ShoppingCart, Payment, LocalShipping, Inventory, AdminPanelSettings, TrendingUp, Chat, Notifications, Group, SmartToy, AutoAwesome, Speed, BarChart, PieChart, FilterList, AccountBalanceWallet, Security, Layers, FitnessCenter, Restaurant, Timer } from '@mui/icons-material';
 import CategoryIcon from '@mui/icons-material/Category';
 import TuneIcon from '@mui/icons-material/Tune';
-
+import DescriptionIcon from '@mui/icons-material/Description';
+import ZoomInIcon from '@mui/icons-material/ZoomIn';
+import PublicIcon from '@mui/icons-material/Public';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
+import BookmarkIcon from '@mui/icons-material/Bookmark';
+import WebAssetIcon from '@mui/icons-material/WebAsset';
 export interface Project {
   slug: string;
   title: string;
@@ -77,7 +85,7 @@ ve yüksek performanslı bir altyapıya sahiptir.`,
     image: 'https://media.istockphoto.com/id/2183482739/tr/foto%C4%9Fraf/procurement-management-and-supply-chain-concept-procurement-icons-related-to-logistics.jpg?s=2048x2048&w=is&k=20&c=MYhWcQThHCSSu9mbbYXa2CO0wTijL-hFj-rSI0SnWEg=',
     tags: ['React', 'Next.Js', 'Redux Toolkit', 'MUI', 'Typescript'],
     githubUrl: 'https://github.com/Emrhn1/Staj-Proje',
-    liveUrl: 'https://demo.com',
+    liveUrl: '#',
     date: '2025',
     features: [
       { 
@@ -103,150 +111,126 @@ ve yüksek performanslı bir altyapıya sahiptir.`,
     ]
   },
   {
-    slug: 'ai-content-generator',
-    title: 'AI Content Generator',
-    description: 'OpenAI API entegrasyonu ile içerik üretimi. Blog yazıları, sosyal medya içerikleri ve SEO metinleri.',
-    fullDescription: `OpenAI GPT-4 API kullanılarak geliştirilen yapay zeka destekli içerik üretim platformu. 
-Kullanıcılar blog yazıları, sosyal medya içerikleri, ürün açıklamaları ve SEO optimize edilmiş metinler oluşturabilir.
-
-Prompt engineering teknikleri ile kaliteli ve bağlama uygun içerikler üretilir. Kullanıcı geçmişi ve template sistemi 
-ile hızlı ve verimli içerik üretimi sağlanır. Credit sistemi ve kullanıcı yönetimi implementasyonu bulunmaktadır.`,
-    image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=600&fit=crop',
-    tags: ['Next.js', 'OpenAI API', 'TypeScript', 'Prisma', 'PostgreSQL', 'Stripe'],
-    githubUrl: 'https://github.com',
-    liveUrl: 'https://demo.com',
-    date: '2024',
+    slug: 'kisisel-web-sitesi',
+    title: 'Kişisel Web Sitesi',
+    description: 'Portföy ve blog içeren kişisel web sitesi. Projeler, makaleler ve iletişim formu.',
+    fullDescription: `Kişisel web sitesi, portföy ve blog içeriklerini barındırır. Kullanıcı dostu arayüz ve responsive tasarım ile her cihazda mükemmel görünüm sağlar.`,
+    image: 'https://images.unsplash.com/photo-1519222970733-f546218fa6d7?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    tags: ['HTML', 'CSS', 'JS'],
+    githubUrl: 'https://github.com/Emrhn1/Emrhn1.github.io?tab=readme-ov-file',
+    liveUrl: 'https://emrhn1.github.io/',
+    date: '2025',
     features: [
       { 
-        icon: SmartToy, 
-        title: "GPT-4 Entegrasyonu", 
-        desc: "OpenAI'ın en gelişmiş modeli ile yüksek kaliteli içerik üretimi." 
+        icon: DescriptionIcon, 
+        title: "Ayrıntılı Proje Açıklamaları", 
+        desc: "Her projenin teknolojileri, zorlukları ve çözümleri hakkında detaylı bilgiler." 
       },
       { 
         icon: AutoAwesome, 
-        title: "Template Sistemi", 
-        desc: "Hazır şablonlar ile hızlı blog, social media ve SEO içeriği oluşturma." 
+        title: "Responsive Tasarım", 
+        desc: "Mobil ve masaüstü uyumlu, her cihazda mükemmel görünüm." 
       },
-      { 
-        icon: Speed, 
-        title: "Hızlı Üretim", 
-        desc: "Saniyeler içinde profesyonel kalitede içerik üretimi." 
-      },
-      { 
-        icon: Payment, 
-        title: "Credit Sistemi", 
-        desc: "Token bazlı kullanım ve Stripe entegrasyonu ile ödeme yönetimi." 
-      }
     ]
   },
   {
-    slug: 'saas-analytics-dashboard',
-    title: 'SaaS Analytics Dashboard',
-    description: 'Kapsamlı veri analiz ve raporlama paneli. Gerçek zamanlı metrikler, grafikler ve özel raporlar.',
-    fullDescription: `Modern SaaS uygulamaları için geliştirilmiş profesyonel analitik dashboard platformu. 
-Recharts ve D3.js kütüphaneleri ile interaktif grafikler, gerçek zamanlı veri akışı ve özelleştirilebilir widget'lar.
-
-Kullanıcı davranış analizi, conversion tracking, revenue metrics ve cohort analysis gibi ileri seviye analitik 
-özellikler bulunmaktadır. CSV/PDF export, scheduled reports ve multi-tenant architecture implementasyonu yapılmıştır.`,
-    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop',
-    tags: ['React', 'TypeScript', 'Recharts', 'Node.js', 'PostgreSQL', 'Redis'],
-    githubUrl: 'https://github.com',
-    liveUrl: 'https://demo.com',
-    date: '2023',
+    slug: 'Adventureworks-2022-Veritabani-Projesi',
+    title: 'Adventureworks 2022 Veritabanı Projesi',
+    description: 'Belirli bir kategoriye ürün listeleme, sipariş detayı görüntüleme ve satış raporları oluşturma özellikleri.',
+    fullDescription: `AdventureWorks 2022 veritabanı kullanılarak geliştirilmiş C# ve ASP.NET Core tabanlı web uygulaması. 
+Kullanıcılar belirli kategorilere göre ürünleri listeleyebilir, sipariş detaylarını görüntüleyebilir ve satış raporları oluşturabilirler. 
+Entity Framework Core ile veritabanı işlemleri gerçekleştirilmiş olup, kullanıcı dostu arayüz Razor Pages ile tasarlanmıştır.`,
+    image: 'https://plus.unsplash.com/premium_photo-1681487942927-e1a2786e6036?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    tags: ['C#',"ASP.NET Core", "SQL Server", "Entity Framework"],
+    githubUrl: 'https://github.com/Emrhn1/AdventureWorks-2022-Sample-Project',
+    liveUrl: '#',
+    date: '2025',
     features: [
       { 
         icon: BarChart, 
-        title: "Interaktif Grafikler", 
-        desc: "Recharts ve D3.js ile zengin veri görselleştirme ve drill-down analiz." 
+        title: "Kategori Bazlı Satış Raporları", 
+        desc: "Belirli kategorilere göre satış performansını analiz etme." 
       },
       { 
         icon: PieChart, 
-        title: "Gerçek Zamanlı Metrikler", 
-        desc: "WebSocket ile canlı veri akışı ve dashboard güncellemeleri." 
+        title: "Kategori Bazlı Ürün Listeleme", 
+        desc: "Belirli kategorilere göre ürünlerin listelenmesi." 
       },
       { 
         icon: FilterList, 
-        title: "Özel Raporlar", 
-        desc: "Tarih aralığı, segment ve metrik bazlı filtreleme sistemi." 
+        title: "Çıkış", 
+        desc: "Uygulamadan güvenli çıkış yapma." 
       },
       { 
         icon: TrendingUp, 
-        title: "Cohort Analizi", 
-        desc: "Kullanıcı segmentasyonu, retention ve conversion tracking." 
+        title: "Yeni Sipariş Ekleme", 
+        desc: "Yeni sipariş oluşturma ve sipariş detaylarını görüntüleme." 
       }
     ]
   },
   {
-    slug: 'blockchain-nft-marketplace',
-    title: 'NFT Marketplace',
-    description: 'Ethereum blockchain üzerinde NFT alım-satım platformu. Wallet entegrasyonu ve smart contract yönetimi.',
-    fullDescription: `Ethereum blockchain teknolojisi kullanılarak geliştirilmiş NFT marketplace platformu. 
-MetaMask ve WalletConnect entegrasyonları ile güvenli wallet bağlantısı, Solidity smart contract'ları ile NFT minting.
-
-IPFS üzerinde decentralized storage, NFT koleksiyonları, auction sistemi, royalty ödemeleri ve gas fee optimizasyonu 
-gibi özellikler implementasyonu bulunmaktadır. Web3.js ve Ethers.js kütüphaneleri kullanılmıştır.`,
-    image: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=800&h=600&fit=crop',
-    tags: ['React', 'Web3.js', 'Solidity', 'Ethereum', 'IPFS', 'Hardhat'],
-    githubUrl: 'https://github.com',
-    liveUrl: 'https://demo.com',
-    date: '2023',
+    slug: 'dunya-ulkeleri-quiz-uygulamasi',
+    title: 'Dünya Ülkeleri Quiz Uygulaması',
+    description: 'Dünya ülkelerini haritada üzerinde bulma odaklı quiz uygulaması.',
+    fullDescription: `Dünya ülkelerini öğrenmeyi eğlenceli hale getiren interaktif quiz uygulaması. Kullanıcı dünya haritası üzerindeki herhangi bir ülkeyi bilmeye çalışır ve her yazdığı ülkenin coğrafi konumu harita üzerinde gösterilir.`,
+    image: 'https://plus.unsplash.com/premium_photo-1712509212206-ab4e7b3bb593?q=80&w=1566&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    tags: ['HTML', 'CSS', 'JavaScript'],
+    githubUrl: 'https://github.com/Emrhn1/World-Countries-Quiz',
+    liveUrl: '#',
+    date: '2025',
     features: [
       { 
-        icon: AccountBalanceWallet, 
-        title: "Wallet Entegrasyonu", 
-        desc: "MetaMask, WalletConnect ve Coinbase Wallet desteği." 
+        icon: PublicIcon, 
+        title: "Dünya Haritası Entegrasyonu", 
+        desc: "Interaktif dünya haritası üzerinde ülkeleri bulma." 
       },
       { 
-        icon: Layers, 
-        title: "Smart Contracts", 
-        desc: "ERC-721 ve ERC-1155 standardında Solidity smart contract'ları." 
+        icon: AccessTimeIcon, 
+        title: "Süreli Bazlı Oyun Modu", 
+        desc: "Belirli bir süre içinde mümkün olduğunca çok ülke bulma." 
       },
       { 
-        icon: Security, 
-        title: "IPFS Storage", 
-        desc: "Decentralized storage ile NFT metadata ve asset yönetimi." 
+        icon: EmojiEventsIcon, 
+        title: "Başarımların Takibi", 
+        desc: "Kullanıcıların bildiği ülkeleri ve skorlarını kaydetme." 
       },
       { 
-        icon: TrendingUp, 
-        title: "Auction Sistemi", 
-        desc: "İngiliz ve Hollanda tarzı açık artırma mekanizmaları." 
+        icon: ZoomInIcon, 
+        title: "İlgili yere yakınlaştırma", 
+        desc: "Harita üzerinde ilgili ülkeye yakınlaştırma ve uzaklaştırma." 
       }
     ]
   },
   {
-    slug: 'fitness-tracking-app',
-    title: 'Fitness Tracking Mobile App',
-    description: 'React Native ile geliştirilmiş fitness ve egzersiz takip uygulaması. Workout planları ve progress tracking.',
-    fullDescription: `React Native kullanılarak geliştirilmiş cross-platform fitness tracking mobil uygulaması. 
-Özelleştirilebilir workout programları, kalori takibi, egzersiz videoları ve ilerleme grafikleri bulunmaktadır.
-
-Wearable cihaz entegrasyonu (Apple Watch, Fitbit), sosyal özellikler (arkadaşlarla yarışma, başarı rozetleri), 
-AI destekli form analizi ve kişiselleştirilmiş öneriler gibi modern fitness app özellikleri implementasyonu yapılmıştır.`,
-    image: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=800&h=600&fit=crop',
-    tags: ['React Native', 'TypeScript', 'Firebase', 'Redux', 'Expo', 'HealthKit'],
-    githubUrl: 'https://github.com',
-    liveUrl: 'https://demo.com',
-    date: '2023',
+    slug: 'coreweb',
+    title: 'Coreweb -Grup Projesi',
+    description: 'Kullanıcıların logo ve web sitesi sipariş edebileceği, adminin bu siparişleri yönetebileceği bir platform.',
+    fullDescription: `Coreweb, kullanıcıların profesyonel logo ve web sitesi sipariş edebileceği, adminin ise bu siparişleri yönetebileceği kapsamlı bir platformdur.`,
+    image: 'https://plus.unsplash.com/premium_photo-1661319071349-e89f0097393a?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    tags: ['HTML', 'CSS', 'Javascript', 'Express.js', 'JSON'],
+    githubUrl: 'https://github.com/Emrhn1/coreweb',
+    liveUrl: '#',
+    date: '2024',
     features: [
       { 
-        icon: FitnessCenter, 
-        title: "Workout Programları", 
-        desc: "Özelleştirilebilir egzersiz planları ve video rehberler." 
+        icon: WebAssetIcon, 
+        title: "Çeşitli logo ve Web Sitesi Seçenekleri", 
+        desc: "Farklı sektörlere yönelik logo ve web sitesi tasarım seçenekleri." 
       },
       { 
-        icon: Restaurant, 
-        title: "Beslenme Takibi", 
-        desc: "Kalori sayacı, makro tracking ve yemek önerileri." 
+        icon: BookmarkIcon, 
+        title: "Sipariş Yönetimi", 
+        desc: "Kullanıcıların logo ve web sitesi siparişlerini yönetme." 
       },
       { 
-        icon: Timer, 
-        title: "Wearable Entegrasyonu", 
-        desc: "Apple Watch, Fitbit ve Google Fit senkronizasyonu." 
+        icon: ShoppingBagIcon, 
+        title: "Sipariş Takibi", 
+        desc: "Kullanıcıların logo ve web sitesi siparişlerini takip etme." 
       },
       { 
-        icon: BarChart, 
-        title: "Progress Analytics", 
-        desc: "Detaylı grafikler ile ilerleme takibi ve hedef yönetimi." 
+        icon: AttachMoneyIcon, 
+        title: "Güvenli Ödeme Altyapısı", 
+        desc: "Güvenli ödeme yöntemleri ile sorunsuz işlem deneyimi." 
       }
     ]
   }
