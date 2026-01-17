@@ -19,7 +19,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Emirhan Portfolio",
+  title: "Emirhan Erkan",
   description: "Full Stack Developer Portfolio",
 };
 
