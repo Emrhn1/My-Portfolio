@@ -2,6 +2,7 @@
 'use client';
 import { AppBar, Toolbar, Typography, Button, Container, Box, IconButton, useTheme, Tooltip } from '@mui/material';
 import { useState, useEffect } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import SunnyIcon from '@mui/icons-material/Sunny';
@@ -15,6 +16,8 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const theme = useTheme();
   const colorMode = useColorMode();
+  const pathname = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -31,9 +34,14 @@ export default function Navbar() {
   ];
 
   const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+    // Eğer ana sayfada değilsek, önce ana sayfaya git
+    if (pathname !== '/') {
+      router.push(`/#${sectionId}`);
+    } else {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
     }
   };
 
