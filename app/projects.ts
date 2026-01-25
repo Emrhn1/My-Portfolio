@@ -10,6 +10,9 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import WebAssetIcon from '@mui/icons-material/WebAsset';
+import ChecklistIcon from '@mui/icons-material/Checklist';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import ContrastIcon from '@mui/icons-material/Contrast';
 export interface Project {
   slug: string;
   title: string;
@@ -134,37 +137,41 @@ ve yüksek performanslı bir altyapıya sahiptir.`,
     ]
   },
   {
-    slug: 'Adventureworks-2022-Veritabani-Projesi',
-    title: 'Adventureworks 2022 Veritabanı Projesi',
-    description: 'Belirli bir kategoriye ürün listeleme, sipariş detayı görüntüleme ve satış raporları oluşturma özellikleri.',
-    fullDescription: `AdventureWorks 2022 veritabanı kullanılarak geliştirilmiş C# ve ASP.NET Core tabanlı web uygulaması. 
-Kullanıcılar belirli kategorilere göre ürünleri listeleyebilir, sipariş detaylarını görüntüleyebilir ve satış raporları oluşturabilirler. 
-Entity Framework Core ile veritabanı işlemleri gerçekleştirilmiş olup, kullanıcı dostu arayüz Razor Pages ile tasarlanmıştır.`,
-    image: 'https://plus.unsplash.com/premium_photo-1681487942927-e1a2786e6036?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    tags: ['C#',"ASP.NET Core", "SQL Server", "Entity Framework"],
-    githubUrl: 'https://github.com/Emrhn1/AdventureWorks-2022-Sample-Project',
+    slug: 'Learning-Dashboard',
+    title: 'Learning Dashboard',
+    description: 'Kullanıcıların öğrendikleri konuları takip edebilecekleri ve ilerlemelerini görebilecekleri bir dashboard uygulaması.',
+    fullDescription: `Learning Dashboard, kullanıcıların öğrenme süreçlerini yönetmelerine yardımcı olan interaktif bir uygulamadır. Kullanıcılar, öğrendikleri konuları ekleyebilir, ilerlemelerini takip edebilir ve öğrenme hedefleri belirleyebilirler. 
+    Ayrıca kullanıcılar takıldıkları konuları ekleyip konunun hangi kısmında takıldıklarını da mesaj olarak belirtebilirler`,
+    tags: ["React", "Next.js","Typescript","Redux Toolkit", "Shadcn UI"],
+    image: "https://media.istockphoto.com/id/1954841243/tr/foto%C4%9Fraf/data-analysis-chart-graph-3d-statistics-background.jpg?s=2048x2048&w=is&k=20&c=ezdFnbmakxE2uLDetc-JFrWryW3BGAYQBAp0YR6BuPI=",
+    githubUrl: 'https://github.com/Emrhn1/Learning-Dashboard-',
     liveUrl: '#',
-    date: '2025',
+    date: '2026',
     features: [
       { 
         icon: BarChart, 
-        title: "Kategori Bazlı Satış Raporları", 
-        desc: "Belirli kategorilere göre satış performansını analiz etme." 
+        title: "Active, Stuck ve Completed Durumları", 
+        desc: "Kullanıcının öğrenme sürecini üç farklı durumda takip etme imkanı." 
       },
       { 
         icon: PieChart, 
-        title: "Kategori Bazlı Ürün Listeleme", 
-        desc: "Belirli kategorilere göre ürünlerin listelenmesi." 
+        title: "Stuck Konularınınn Takibi", 
+        desc: "Kullanıcıların takıldıkları konuları ekleyip, bu konuların hangi kısmında takıldıklarını mesaj olarak belirtebilme." 
       },
       { 
-        icon: FilterList, 
-        title: "Çıkış", 
-        desc: "Uygulamadan güvenli çıkış yapma." 
+        icon: ChecklistIcon, 
+        title: "Öğrenilen Konuların Listeleme", 
+        desc: "Kullanıcının o gün öğrendiği konuları yazabilme" 
       },
       { 
-        icon: TrendingUp, 
-        title: "Yeni Sipariş Ekleme", 
-        desc: "Yeni sipariş oluşturma ve sipariş detaylarını görüntüleme." 
+        icon: FilterAltIcon, 
+        title: "Konuları Seviye ve Duruma Göre Filtreleme", 
+        desc: "Kullanıcıların konularını seviye (kolay, orta, zor) ve duruma (active, stuck, completed) göre filtreleyebilme." 
+      },
+      {
+        icon: ContrastIcon,
+        title: "Tema Değiştirme",
+        desc: "Kullanıcıların dashboard temasını açık ve koyu mod arasında değiştirebilmesi."
       }
     ]
   },
