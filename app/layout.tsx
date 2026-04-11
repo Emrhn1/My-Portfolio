@@ -1,47 +1,8 @@
-// app/layout.tsx
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import { Analytics } from "@vercel/analytics/next";
-import "./globals.css";
-import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
-import { ThemeProvider } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
-import ThemeContextProvider from "./components/ThemeContextProvider";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+// app/layout.tsx — Root layout (minimal shell)
+// html/body is provided by app/[locale]/layout.tsx
+// This file is required by Next.js but delegates to locale layouts.
+import type { ReactNode } from 'react';
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-export const metadata: Metadata = {
-  title: "Emirhan Erkan",
-  description: "Full Stack Developer Portfolio",
-};
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
-    <html lang="tr">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <AppRouterCacheProvider>
-          <ThemeContextProvider>
-            <CssBaseline />
-            <Navbar />
-            {children}
-            <Footer />
-            <Analytics />
-          </ThemeContextProvider>
-        </AppRouterCacheProvider>
-      </body>
-    </html>
-  );
+export default function RootLayout({ children }: { children: ReactNode }) {
+  return children as React.ReactElement;
 }
