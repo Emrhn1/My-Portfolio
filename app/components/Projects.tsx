@@ -1,263 +1,252 @@
-// app/components/Projects.tsx
 'use client';
-import { Container, Typography, Box, Card, CardContent, CardMedia, Chip, IconButton } from '@mui/material';
-import {Grid} from '@mui/system';
-import { GitHub, OpenInNew, ArrowForward } from '@mui/icons-material';
-import { keyframes } from '@mui/system';
+import { useState, useMemo } from 'react';
+import { useTranslations, useLocale } from 'next-intl';
 import Link from 'next/link';
-import { projects } from '../projects';
+import { Github, ExternalLink, ArrowRight, Star } from 'lucide-react';
+import { projects, type Project } from '../projects';
+import SpotlightCard from './SpotLightCard';
 
-const fadeInUp = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-`;
-
-const float = keyframes`
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-`;
-
-export default function Projects() {
+// ── Terminal window chrome ────────────────────────────────────────────────────
+function TerminalBar({ slug }: { slug: string }) {
   return (
-    <Box
-      id="projects"
-      sx={{
-        minHeight: '100vh',
-        py: 10,
-        // Dinamik background
-        background: (theme) => theme.palette.mode === 'dark'
-          ? 'linear-gradient(180deg, #0f172a 0%, #1e293b 100%)'
-          : 'linear-gradient(180deg, #ffffff 0%, #f8fafc 100%)',
-        position: 'relative',
-        overflow: 'hidden',
-      }}
-    >
-      {/* Background Effects */}
-      <Box
-        sx={{
-          position: 'absolute',
-          top: '10%',
-          left: '-10%',
-          width: '500px',
-          height: '500px',
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(139, 92, 246, 0.15), transparent)',
-          filter: 'blur(80px)',
-          animation: `${float} 10s ease-in-out infinite`,
-        }}
-      />
+    <div className="flex items-center gap-2 px-3 py-2 bg-terminal-green/5 border-b border-terminal-green/20 flex-shrink-0">
+      <div className="flex items-center gap-1.5">
+        <div className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
+        <div className="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]" />
+        <div className="w-2.5 h-2.5 rounded-full bg-[#28ca41]" />
+      </div>
+      <span className="text-[10px] text-[var(--muted)] ml-1 font-[family-name:var(--font-space-mono)] truncate">
+        ~/projects/{slug}
+      </span>
+    </div>
+  );
+}
 
-      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
-        <Box sx={{ textAlign: 'center', mb: 8 }}>
-          <Typography
-            variant="overline"
-            sx={{
-              color: '#3b82f6',
-              fontWeight: 600,
-              letterSpacing: 2,
-              mb: 2,
-              display: 'block',
-            }}
-          >
-            PORTFOLIO
-          </Typography>
-          <Typography
-            variant="h2"
-            sx={{
-              fontSize: { xs: '2rem', md: '3rem' },
-              fontWeight: 900,
-              mb: 2,
-              background: 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-            }}
-          >
-            Projelerim
-          </Typography>
-          <Typography
-            variant="body1"
-            color="text.secondary"
-            sx={{ maxWidth: '600px', mx: 'auto', fontSize: '1.1rem' }}
-          >
-            Üzerinde çalıştığım ve geliştirdiğim projeler. Her biri farklı teknolojiler ve yaklaşımlar kullanılarak oluşturuldu.
-          </Typography>
-        </Box>
+// ── Single project card ───────────────────────────────────────────────────────
+function ProjectCard({
+  project,
+  locale,
+  t,
+  featured = false,
+}: {
+  project: Project;
+  locale: string;
+  t: ReturnType<typeof useTranslations>;
+  featured?: boolean;
+}) {
+  const href = `/${locale}/projects/${project.slug}`;
+  const hasLive = project.liveUrl !== '#';
 
-        <Grid container spacing={4}>
-          {projects.map((project, index) => (
-            <Grid key={index} size={{ xs: 12, sm: 6, md: 4 }}>
-              <Card
-                sx={{
-                  height: '100%',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  background: (theme) => theme.palette.mode === 'dark' 
-                    ? 'rgba(30, 41, 59, 0.5)' 
-                    : '#ffffff',
-                  backdropFilter: 'blur(10px)',
-                  border: (theme) => `1px solid ${theme.palette.mode === 'dark' ? 'rgba(59, 130, 246, 0.2)' : 'rgba(59, 130, 246, 0.1)'}`,
-                  boxShadow: (theme) => theme.palette.mode === 'light' ? '0 10px 15px -3px rgba(0, 0, 0, 0.1)' : 'none',
-                  borderRadius: 3,
-                  overflow: 'hidden',
-                  position: 'relative',
-                  transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-                  animation: `${fadeInUp} 0.6s ease-out ${index * 0.1}s both`,
-                  cursor: 'pointer',
-                  '&:hover': {
-                    transform: 'translateY(-12px)',
-                    border: '1px solid rgba(59, 130, 246, 0.5)',
-                    boxShadow: '0 20px 40px rgba(59, 130, 246, 0.3)',
-                    '& .project-image': {
-                      transform: 'scale(1.1)',
-                    },
-                    '& .project-overlay': {
-                      opacity: 1,
-                    },
-                  },
-                }}
-              >
-                <Link 
-                  href={`/projects/${project.slug}`} 
-                  style={{ textDecoration: 'none', color: 'inherit' }}
-                >
-                  <Box sx={{ position: 'relative', paddingTop: '60%', overflow: 'hidden' }}>
-                    <CardMedia
-                      component="img"
-                      image={project.image}
-                      alt={project.title}
-                      className="project-image"
-                      sx={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                        transition: 'transform 0.4s ease',
-                      }}
-                    />
-                    <Box
-                      className="project-overlay"
-                      sx={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        width: '100%',
-                        height: '100%',
-                        background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.8), rgba(139, 92, 246, 0.8))',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        opacity: 0,
-                        transition: 'opacity 0.4s ease',
-                      }}
-                    >
-                      <ArrowForward sx={{ fontSize: 48, color: 'white' }} />
-                    </Box>
-                  </Box>
+  return (
+    <SpotlightCard className="flex flex-col h-full rounded-lg">
+      <TerminalBar slug={project.slug} />
 
-                  <CardContent sx={{ flexGrow: 1, p: 3 }}>
-                    <Typography
-                      variant="h6"
-                      sx={{
-                        fontWeight: 700,
-                        mb: 1.5,
-                        color: 'text.primary', // Dinamik renk
-                      }}
-                    >
-                      {project.title}
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      color="text.secondary"
-                      sx={{
-                        mb: 2,
-                        lineHeight: 1.7,
-                        display: '-webkit-box',
-                        WebkitLineClamp: 3,
-                        WebkitBoxOrient: 'vertical',
-                        overflow: 'hidden',
-                      }}
-                    >
-                      {project.description}
-                    </Typography>
-                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
-                      {project.tags.map((tag, tagIndex) => (
-                        <Chip
-                          key={tagIndex}
-                          label={tag}
-                          size="small"
-                          sx={{
-                            background: 'rgba(59, 130, 246, 0.1)',
-                            border: '1px solid rgba(59, 130, 246, 0.3)',
-                            color: '#3b82f6',
-                            fontSize: '0.75rem',
-                            fontWeight: 600,
-                          }}
-                        />
-                      ))}
-                    </Box>
-                  </CardContent>
-                </Link>
+      {/* Image */}
+      <Link href={href} className={`block relative overflow-hidden group ${featured ? 'h-52' : 'h-32'}`}>
+        <img
+          src={project.image}
+          alt={project.title}
+          loading="lazy"
+          decoding="async"
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          style={{ opacity: 0.75 }}
+        />
+        {/* Dark overlay */}
+        <div className="absolute inset-0 bg-crt-black/30 group-hover:bg-crt-black/10 transition-colors duration-300" />
 
-                <Box
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    p: 2,
-                    pt: 0,
-                  }}
-                >
-                  <Box sx={{ display: 'flex', gap: 1 }}>
-                    <IconButton
-                      size="small"
-                      href={project.githubUrl}
-                      target="_blank"
-                      onClick={(e) => e.stopPropagation()}
-                      sx={{
-                        border: (theme) => `1px solid ${theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
-                        color: 'text.primary', // İkon rengi
-                        transition: 'all 0.3s ease',
-                        '&:hover': {
-                          borderColor: '#3b82f6',
-                          background: 'rgba(59, 130, 246, 0.1)',
-                          transform: 'rotate(5deg)',
-                        },
-                      }}
-                    >
-                      <GitHub fontSize="small" />
-                    </IconButton>
-                    <IconButton
-                      size="small"
-                      href={project.liveUrl}
-                      target="_blank"
-                      onClick={(e) => e.stopPropagation()}
-                      sx={{
-                        border: '1px solid rgba(255,255,255,0.1)',
-                        transition: 'all 0.3s ease',
-                        '&:hover': {
-                          borderColor: '#8b5cf6',
-                          background: 'rgba(139, 92, 246, 0.1)',
-                          transform: 'rotate(-5deg)',
-                        },
-                      }}
-                    >
-                      <OpenInNew fontSize="small" />
-                    </IconButton>
-                  </Box>
-                </Box>
-              </Card>
-            </Grid>
+        {/* Featured badge */}
+        {featured && (
+          <div className="absolute top-2 right-2 flex items-center gap-1 px-2 py-0.5 rounded
+                          bg-terminal-green text-crt-black text-[9px] font-bold
+                          font-[family-name:var(--font-space-mono)] tracking-wider">
+            <Star size={8} />
+            FEATURED
+          </div>
+        )}
+
+        {/* Hover arrow */}
+        <div className="absolute inset-0 flex items-center justify-center
+                        opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <ArrowRight size={24} className="text-terminal-green drop-shadow-lg" />
+        </div>
+      </Link>
+
+      {/* Content */}
+      <Link href={href} className="flex-1 p-4 block space-y-2">
+        <h3 className="text-sm font-bold text-[var(--fg)] font-[family-name:var(--font-space-mono)] leading-snug">
+          {project.title}
+        </h3>
+        <p className={`text-xs text-[var(--muted)] leading-relaxed ${featured ? 'line-clamp-3' : 'line-clamp-2'}`}>
+          {project.description}
+        </p>
+        <div className="flex flex-wrap gap-1 pt-1">
+          {project.tags.slice(0, featured ? project.tags.length : 3).map((tag) => (
+            <span
+              key={tag}
+              className="px-1.5 py-0.5 text-[10px] rounded border border-terminal-green/20
+                         text-terminal-green/80 bg-terminal-green/5
+                         font-[family-name:var(--font-space-mono)]"
+            >
+              {tag}
+            </span>
           ))}
-        </Grid>
-      </Container>
-    </Box>
+          {!featured && project.tags.length > 3 && (
+            <span className="px-1.5 py-0.5 text-[10px] text-[var(--muted)]">
+              +{project.tags.length - 3}
+            </span>
+          )}
+        </div>
+      </Link>
+
+      {/* Actions */}
+      <div className="flex items-center gap-2 px-4 pb-3 pt-2 border-t border-terminal-green/10 mt-auto">
+        <a
+          href={project.githubUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="GitHub"
+          onClick={(e) => e.stopPropagation()}
+          className="p-1.5 rounded border border-[var(--border)] text-[var(--muted)]
+                     hover:border-terminal-green/50 hover:text-terminal-green transition-all"
+        >
+          <Github size={12} />
+        </a>
+        {hasLive && (
+          <a
+            href={project.liveUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Live demo"
+            onClick={(e) => e.stopPropagation()}
+            className="p-1.5 rounded border border-[var(--border)] text-[var(--muted)]
+                       hover:border-terminal-amber/50 hover:text-terminal-amber transition-all"
+          >
+            <ExternalLink size={12} />
+          </a>
+        )}
+        <Link
+          href={href}
+          onClick={(e) => e.stopPropagation()}
+          className="ml-auto flex items-center gap-1 text-[10px] text-[var(--muted)]
+                     hover:text-terminal-green transition-colors
+                     font-[family-name:var(--font-space-mono)]"
+        >
+          {t('viewDetails')}
+          <ArrowRight size={10} />
+        </Link>
+      </div>
+    </SpotlightCard>
+  );
+}
+
+// ── Projects section ──────────────────────────────────────────────────────────
+export default function Projects() {
+  const t = useTranslations('projects');
+  const locale = useLocale();
+  const [activeTag, setActiveTag] = useState('all');
+
+  const allTags = useMemo(() => {
+    const seen = new Set<string>();
+    projects.forEach((p) => p.tags.forEach((tag) => seen.add(tag)));
+    return Array.from(seen);
+  }, []);
+
+  const featured = projects.filter((p) => p.featured);
+  const others = projects.filter((p) => !p.featured);
+
+  const isFiltered = activeTag !== 'all';
+  const filtered = projects.filter((p) =>
+    p.tags.some((tag) => tag.toLowerCase() === activeTag.toLowerCase())
+  );
+
+  return (
+    <section
+      id="projects"
+      className="py-24 px-4 sm:px-6 font-[family-name:var(--font-space-mono)]"
+    >
+      <div className="max-w-6xl mx-auto">
+
+        {/* Terminal header */}
+        <div className="mb-10">
+          <p className="text-xs text-[var(--muted)] mb-3">
+            <span className="text-terminal-green">emirhan@dev</span>
+            <span className="text-[var(--muted)]">:~$&nbsp;</span>
+            <span className="text-[var(--fg)]">ls -la projects/</span>
+          </p>
+          <p className="text-[11px] tracking-[0.3em] text-terminal-green uppercase mb-2">
+            {t('label')}
+          </p>
+          <h2 className="text-2xl md:text-3xl font-bold text-[var(--fg)]">{t('title')}</h2>
+          <p className="text-sm text-[var(--muted)] mt-2 max-w-xl">{t('subtitle')}</p>
+        </div>
+
+        {/* Tag filter */}
+        <div className="flex flex-wrap gap-2 mb-8">
+          <button
+            onClick={() => setActiveTag('all')}
+            className={[
+              'px-3 py-1.5 text-xs rounded border transition-all duration-150',
+              activeTag === 'all'
+                ? 'border-terminal-green/60 text-terminal-green bg-terminal-green/10'
+                : 'border-[var(--border)] text-[var(--muted)] hover:border-terminal-green/30 hover:text-terminal-green/70',
+            ].join(' ')}
+          >
+            {t('filterAll')}
+          </button>
+          {allTags.map((tag) => (
+            <button
+              key={tag}
+              onClick={() => setActiveTag(tag)}
+              className={[
+                'px-3 py-1.5 text-xs rounded border transition-all duration-150',
+                activeTag === tag
+                  ? 'border-terminal-green/60 text-terminal-green bg-terminal-green/10'
+                  : 'border-[var(--border)] text-[var(--muted)] hover:border-terminal-green/30 hover:text-terminal-green/70',
+              ].join(' ')}
+            >
+              {tag}
+            </button>
+          ))}
+        </div>
+
+        {isFiltered ? (
+          /* ── Filtered view — uniform grid ── */
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {filtered.length === 0 ? (
+              <p className="col-span-full text-sm text-[var(--muted)] py-8">
+                <span className="text-terminal-amber">[WARN]</span>&nbsp;
+                {t('noProjectsFound')}
+              </p>
+            ) : (
+              filtered.map((p) => (
+                <ProjectCard key={p.slug} project={p} locale={locale} t={t} featured={!!p.featured} />
+              ))
+            )}
+          </div>
+        ) : (
+          /* ── Default — asymmetric grid ── */
+          <div className="space-y-5">
+            {/* Featured row: 2 large cards */}
+            {featured.length > 0 && (
+              <div className="grid md:grid-cols-2 gap-5">
+                {featured.map((p) => (
+                  <ProjectCard key={p.slug} project={p} locale={locale} t={t} featured />
+                ))}
+              </div>
+            )}
+
+            {/* Others: 4 compact cards in a tighter grid */}
+            {others.length > 0 && (
+              <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                {others.map((p) => (
+                  <ProjectCard key={p.slug} project={p} locale={locale} t={t} />
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+      </div>
+    </section>
   );
 }

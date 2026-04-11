@@ -1,186 +1,208 @@
-// app/components/Navbar.tsx
 'use client';
-import { AppBar, Toolbar, Typography, Button, Container, Box, IconButton, useTheme, Tooltip } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import MenuIcon from '@mui/icons-material/Menu';
-import CloseIcon from '@mui/icons-material/Close';
-import SunnyIcon from '@mui/icons-material/Sunny';
-import DarkModeIcon from '@mui/icons-material/DarkMode';
-import { useColorMode } from './ThemeContextProvider';
-import Link from 'next/link';
-
+import { useTheme } from 'next-themes';
+import { useTranslations, useLocale } from 'next-intl';
+import { Menu, X, Sun, Moon, Download, Search } from 'lucide-react';
+import { useOpenCommandPalette } from './CommandPaletteProvider';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const theme = useTheme();
-  const colorMode = useColorMode();
+  const [mounted, setMounted] = useState(false);
+  const { resolvedTheme, setTheme } = useTheme();
+  const t = useTranslations('nav');
   const pathname = usePathname();
   const router = useRouter();
+  const locale = useLocale();
+  const openPalette = useOpenCommandPalette();
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
+    setMounted(true);
+    const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const isDark = resolvedTheme === 'dark';
+
   const menuItems = [
-    { label: 'Hakkımda', sectionId: 'about' },
-    { label: 'Projeler', sectionId: 'projects' },
-    { label: 'İletişim', sectionId: 'contact' },
+    { key: 'about',    label: t('about'),    sectionId: 'about'    },
+    { key: 'skills',   label: t('skills'),   sectionId: 'skills'   },
+    { key: 'projects', label: t('projects'), sectionId: 'projects' },
+    { key: 'contact',  label: t('contact'),  sectionId: 'contact'  },
   ];
 
   const scrollToSection = (sectionId: string) => {
-    // Eğer ana sayfada değilsek, önce ana sayfaya git
-    if (pathname !== '/') {
-      router.push(`/#${sectionId}`);
+    const localizedHome = `/${locale}`;
+    if (pathname !== localizedHome && pathname !== '/') {
+      router.push(`${localizedHome}#${sectionId}`);
     } else {
-      const element = document.getElementById(sectionId);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
+      document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
     }
+    setMobileOpen(false);
+  };
+
+  const switchLocale = () => {
+    const next = locale === 'tr' ? 'en' : 'tr';
+    router.push(pathname.replace(`/${locale}`, `/${next}`));
   };
 
   return (
-    <AppBar
-      position="fixed"
-      elevation={0}
-      sx={{
-        background: scrolled
-          ? (theme.palette.mode === 'dark' ? 'rgba(15, 23, 42, 0.9)' : 'rgba(255, 255, 255, 0.9)')
-          : 'transparent',
-        backdropFilter: scrolled ? 'blur(20px)' : 'none',
-        borderBottom: scrolled ? '1px solid rgba(59, 130, 246, 0.2)' : 'none',
-        transition: 'all 0.3s ease',
-        color: theme.palette.text.primary,
-      }}
+    <header
+      className={[
+        'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
+        'font-[family-name:var(--font-space-mono)]',
+        scrolled
+          ? 'border-b border-terminal-green/20 backdrop-blur-xl'
+            + (isDark ? ' bg-crt-black/90' : ' bg-white/90')
+          : 'bg-transparent border-b border-transparent',
+      ].join(' ')}
     >
-      <Container maxWidth="lg">
-        <Toolbar sx={{ justifyContent: 'space-between', py: 1 }}>
-          <Tooltip title="Anasayfa'ya Git">
-            <Link href="/">
-              <Typography
-                variant="h6"
-                component="div"
-                sx={{
-                  fontWeight: 800,
-                  fontSize: '1.5rem',
-                  background: 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  cursor: 'pointer',
-                  transition: 'transform 0.3s ease',
-                  '&:hover': {
-                    transform: 'scale(1.05)',
-                  }
-                }}
-              >
-                {'<Emirhan />'}
-              </Typography>
-            </Link>
-          </Tooltip>
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        <div className="flex items-center justify-between h-14">
 
-          {/* Desktop Menu */}
-          <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 1, alignItems: 'center' }}>
-            {menuItems.map((item, index) => (
-              <Tooltip title={item.label} key={index}>
-                <Button
-                  key={index}
-                  color="inherit"
-                  onClick={() => scrollToSection(item.sectionId)}
-                  sx={{
-                    position: 'relative',
-                    px: 2,
-                    py: 1,
-                    fontSize: '1rem',
-                    fontWeight: 500,
-                    '&::before': {
-                      content: '""',
-                      position: 'absolute',
-                      bottom: 0,
-                      left: '50%',
-                      transform: 'translateX(-50%)',
-                      width: 0,
-                      height: '2px',
-                      background: 'linear-gradient(90deg, #3b82f6, #8b5cf6)',
-                      transition: 'width 0.3s ease',
-                    },
-                    '&:hover::before': {
-                      width: '80%',
-                    },
-                  }}
-                >
-                  {item.label}
-                </Button>
-              </Tooltip>
-            ))}
-
-            <Tooltip title={theme.palette.mode === 'dark' ? "Açık Temaya Geç" : "Koyu Temaya Geç"}>
-              <IconButton
-                onClick={colorMode.toggleColorMode}
-                color="inherit"
-                sx={{ ml: 2 }}
-              >
-                {theme.palette.mode === 'dark' ? <SunnyIcon /> : <DarkModeIcon />}
-              </IconButton>
-            </Tooltip>
-          </Box>
-
-          {/* Mobile Menu Button */}
-          <Box sx={{ display: { xs: 'flex', md: 'none' }, gap: 1 }}>
-            <Tooltip title={theme.palette.mode === 'dark' ? "Switch to Light Mode" : "Switch to Dark Mode"}>
-              <IconButton
-                onClick={colorMode.toggleColorMode}
-                color="inherit"
-              >
-                {theme.palette.mode === 'dark' ? <SunnyIcon /> : <DarkModeIcon />}
-              </IconButton>
-            </Tooltip>
-            <IconButton
-              onClick={() => setMobileOpen(!mobileOpen)}
-              color="inherit"
-            >
-              {mobileOpen ? <CloseIcon /> : <MenuIcon />}
-            </IconButton>
-          </Box>
-        </Toolbar>
-
-        {/* Mobile Menu */}
-        {mobileOpen && (
-          <Box
-            sx={{
-              display: { xs: 'flex', md: 'none' },
-              flexDirection: 'column',
-              gap: 1,
-              pb: 2,
-              background: theme.palette.background.paper,
-              borderRadius: 2,
-              p: 2,
-              mt: 1,
-              boxShadow: 3,
-            }}
+          {/* Logo — terminal prompt */}
+          <button
+            onClick={() => scrollToSection('hero')}
+            className="flex items-center gap-0 text-sm font-bold select-none"
           >
-            {menuItems.map((item, index) => (
-              <Button
-                key={index}
-                color="inherit"
-                fullWidth
-                onClick={() => {
-                  scrollToSection(item.sectionId);
-                  setMobileOpen(false);
-                }}
-                sx={{ justifyContent: 'flex-start', pl: 2 }}
+            <span className="text-terminal-green">emirhan</span>
+            <span className="text-[var(--muted)]">@dev:~$</span>
+            <span className="ml-1 w-2 h-[1em] bg-terminal-green animate-cursor-blink inline-block align-middle" />
+          </button>
+
+          {/* Desktop nav */}
+          <nav className="hidden md:flex items-center gap-0.5">
+            {menuItems.map((item) => (
+              <button
+                key={item.key}
+                onClick={() => scrollToSection(item.sectionId)}
+                className="group px-3 py-1.5 text-xs text-[var(--muted)] hover:text-terminal-green transition-colors"
               >
+                <span className="text-terminal-green opacity-0 group-hover:opacity-100 transition-opacity">&gt;&nbsp;</span>
                 {item.label}
-              </Button>
+              </button>
             ))}
-          </Box>
+
+            <span className="mx-2 text-[var(--muted)] opacity-30 select-none">│</span>
+
+            {/* Command palette trigger */}
+            <button
+              onClick={openPalette}
+              title="⌘K"
+              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded border border-[var(--border)]
+                         text-xs text-[var(--muted)] hover:border-terminal-green/40 hover:text-terminal-green
+                         transition-all"
+            >
+              <Search size={11} />
+              <kbd className="text-[9px] opacity-60">⌘K</kbd>
+            </button>
+
+            {/* CV download */}
+            <a
+              href="/emirhan-erkan.pdf"
+              download
+              title={t('downloadCV')}
+              className="flex items-center gap-1.5 px-3 py-1.5 text-xs text-[var(--muted)]
+                         hover:text-terminal-amber border border-transparent
+                         hover:border-terminal-amber/40 rounded transition-all duration-200"
+            >
+              <Download size={11} />
+              CV
+            </a>
+
+            {/* Language switcher */}
+            <button
+              onClick={switchLocale}
+              title={t('switchLanguage')}
+              className="px-2 py-1.5 text-xs font-bold text-[var(--muted)] hover:text-terminal-green
+                         transition-colors border border-transparent hover:border-terminal-green/30 rounded"
+            >
+              {locale === 'tr' ? 'EN' : 'TR'}
+            </button>
+
+            {/* Theme toggle */}
+            {mounted && (
+              <button
+                onClick={() => setTheme(isDark ? 'light' : 'dark')}
+                title={t('toggleTheme')}
+                className="p-1.5 text-[var(--muted)] hover:text-terminal-green transition-colors"
+              >
+                {isDark ? <Sun size={13} /> : <Moon size={13} />}
+              </button>
+            )}
+          </nav>
+
+          {/* Mobile controls */}
+          <div className="flex md:hidden items-center gap-1">
+            {/* ⌘K trigger (mobile) */}
+            <button
+              onClick={openPalette}
+              aria-label="Search"
+              className="p-1.5 text-[var(--muted)] hover:text-terminal-green transition-colors"
+            >
+              <Search size={14} />
+            </button>
+            <button
+              onClick={switchLocale}
+              className="px-2 py-1 text-xs font-bold text-[var(--muted)] hover:text-terminal-green transition-colors"
+            >
+              {locale === 'tr' ? 'EN' : 'TR'}
+            </button>
+            {mounted && (
+              <button
+                onClick={() => setTheme(isDark ? 'light' : 'dark')}
+                className="p-1.5 text-[var(--muted)] hover:text-terminal-green transition-colors"
+              >
+                {isDark ? <Sun size={13} /> : <Moon size={13} />}
+              </button>
+            )}
+            <button
+              onClick={() => setMobileOpen(!mobileOpen)}
+              aria-label={mobileOpen ? t('closeMenu') : t('openMenu')}
+              className="p-1.5 text-[var(--muted)] hover:text-terminal-green transition-colors"
+            >
+              {mobileOpen ? <X size={16} /> : <Menu size={16} />}
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile drawer */}
+        {mobileOpen && (
+          <div
+            className={[
+              'md:hidden mt-1 mb-2 rounded border border-terminal-green/20 p-3',
+              'backdrop-blur-xl',
+              isDark ? 'bg-crt-black/95' : 'bg-white/95',
+            ].join(' ')}
+          >
+            {menuItems.map((item) => (
+              <button
+                key={item.key}
+                onClick={() => scrollToSection(item.sectionId)}
+                className="block w-full text-left px-3 py-2.5 text-xs text-[var(--muted)]
+                           hover:text-terminal-green hover:bg-terminal-green/5 rounded transition-all"
+              >
+                <span className="text-terminal-green mr-2">&gt;</span>
+                {item.label}
+              </button>
+            ))}
+            <div className="mt-2 pt-2 border-t border-terminal-green/20">
+              <a
+                href="/emirhan-erkan.pdf"
+                download
+                onClick={() => setMobileOpen(false)}
+                className="flex items-center gap-2 px-3 py-2 text-xs text-[var(--muted)]
+                           hover:text-terminal-amber transition-colors"
+              >
+                <Download size={11} />
+                {t('downloadCV')}
+              </a>
+            </div>
+          </div>
         )}
-      </Container>
-    </AppBar>
+      </div>
+    </header>
   );
 }

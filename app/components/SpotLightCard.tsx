@@ -1,7 +1,5 @@
-// app/components/SpotlightCard.tsx
 'use client';
 import { useRef, useState, MouseEvent } from 'react';
-import { Box, useTheme } from '@mui/material';
 
 interface SpotlightCardProps {
   children: React.ReactNode;
@@ -9,73 +7,43 @@ interface SpotlightCardProps {
   spotlightColor?: string;
 }
 
-export default function SpotlightCard({ children, className = "", spotlightColor = "rgba(59, 130, 246, 0.25)" }: SpotlightCardProps) {
+export default function SpotlightCard({
+  children,
+  className = '',
+  spotlightColor = 'rgba(0, 255, 65, 0.08)',
+}: SpotlightCardProps) {
   const divRef = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [opacity, setOpacity] = useState(0);
-  const theme = useTheme();
 
   const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
     if (!divRef.current) return;
-
-    const div = divRef.current;
-    const rect = div.getBoundingClientRect();
-
+    const rect = divRef.current.getBoundingClientRect();
     setPosition({ x: e.clientX - rect.left, y: e.clientY - rect.top });
   };
 
-  const handleFocus = () => {
-    setOpacity(1);
-  };
-
-  const handleBlur = () => {
-    setOpacity(0);
-  };
-
-  const handleMouseEnter = () => {
-    setOpacity(1);
-  };
-
-  const handleMouseLeave = () => {
-    setOpacity(0);
-  };
-
   return (
-    <Box
+    <div
       ref={divRef}
       onMouseMove={handleMouseMove}
-      onFocus={handleFocus}
-      onBlur={handleBlur}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      className={className}
-      sx={{
-        position: 'relative',
-        overflow: 'hidden',
-        borderRadius: 3,
-        border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
-        background: theme.palette.mode === 'dark' ? 'rgba(30, 41, 59, 0.5)' : '#ffffff',
-        boxShadow: theme.palette.mode === 'light' ? '0 4px 6px -1px rgba(0, 0, 0, 0.1)' : 'none',
-        transition: 'transform 0.3s ease',
-        '&:hover': {
-            transform: 'translateY(-5px)',
-        }
-      }}
+      onMouseEnter={() => setOpacity(1)}
+      onMouseLeave={() => setOpacity(0)}
+      onFocus={() => setOpacity(1)}
+      onBlur={() => setOpacity(0)}
+      className={`relative overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--card-bg)] hover:-translate-y-1 transition-transform duration-300 ${className}`}
     >
       <div
         style={{
-          pointerEvents: "none",
-          position: "absolute",
+          pointerEvents: 'none',
+          position: 'absolute',
+          inset: -1,
           opacity,
           background: `radial-gradient(600px circle at ${position.x}px ${position.y}px, ${spotlightColor}, transparent 40%)`,
-          transition: "opacity 0.3s",
-          inset: -1,
+          transition: 'opacity 0.3s',
           zIndex: 10,
         }}
       />
-      <Box sx={{ position: 'relative', zIndex: 20, height: '100%' }}>
-        {children}
-      </Box>
-    </Box>
+      <div className="relative z-20 h-full">{children}</div>
+    </div>
   );
 }

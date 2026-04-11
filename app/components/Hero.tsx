@@ -1,316 +1,255 @@
-// app/components/Hero.tsx
 'use client';
-import { Container, Typography, Box, Button, Card, CardContent, Chip, IconButton } from '@mui/material';
-import {Grid} from '@mui/system';
-import { GitHub, LinkedIn, Email, Code, Rocket, Lightbulb } from '@mui/icons-material';
-import { keyframes } from '@mui/system';
-import SplitText from './SplitText';
+import { useState, useEffect, useRef } from 'react';
+import { useTranslations } from 'next-intl';
+import { useTheme } from 'next-themes';
+import { Github, Linkedin, Mail } from 'lucide-react';
 
-const float = keyframes`
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-20px); }
-`;
+// ── Code Rain ────────────────────────────────────────────────────────────────
+const RAIN_CHARS = '01アイウエ<>{}[]()=>;+-*/:.'.split('');
+const FONT_SIZE = 14;
 
-const glow = keyframes`
-  0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.5); }
-  50% { box-shadow: 0 0 40px rgba(139, 92, 246, 0.8); }
-`;
+function CodeRain() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
 
-const gradientAnimation = keyframes`
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-`;
+  useEffect(() => setMounted(true), []);
 
-export default function Hero() {
-  const skills = ['React', 'Next.js', 'TypeScript', 'Redux Toolkit', 'MUI', 'TailwindCSS'];
-  
-  const features = [
-    {
-      icon: <Code sx={{ fontSize: 40 }} />,
-      title: 'Clean Code',
-      description: 'Temiz ve sürdürülebilir kod yazımı',
-    },
-    {
-      icon: <Rocket sx={{ fontSize: 40 }} />,
-      title: 'Performance',
-      description: 'Optimize edilmiş ve hızlı uygulamalar',
-    },
-    {
-      icon: <Lightbulb sx={{ fontSize: 40 }} />,
-      title: 'Innovation',
-      description: 'Modern ve yenilikçi çözümler',
-    },
-  ];
+  useEffect(() => {
+    if (!mounted || resolvedTheme !== 'dark') return;
+
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced) return;
+
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+    resize();
+    window.addEventListener('resize', resize);
+
+    const cols = Math.floor(canvas.width / FONT_SIZE);
+    const drops = new Array(cols).fill(1).map(() => Math.random() * -50);
+
+    let animId: number;
+    const draw = () => {
+      ctx.fillStyle = 'rgba(10, 10, 10, 0.05)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.font = `${FONT_SIZE}px "JetBrains Mono", monospace`;
+
+      drops.forEach((y, i) => {
+        const char = RAIN_CHARS[Math.floor(Math.random() * RAIN_CHARS.length)];
+        ctx.fillStyle = `rgba(0, 255, 65, ${0.15 + Math.random() * 0.2})`;
+        ctx.fillText(char, i * FONT_SIZE, y * FONT_SIZE);
+
+        if (y * FONT_SIZE > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i] += 0.5;
+      });
+
+      animId = requestAnimationFrame(draw);
+    };
+
+    draw();
+    return () => {
+      cancelAnimationFrame(animId);
+      window.removeEventListener('resize', resize);
+    };
+  }, [mounted, resolvedTheme]);
+
+  if (!mounted || resolvedTheme !== 'dark') return null;
 
   return (
-    <Box
-      id="about"
-      sx={{
-        minHeight: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        position: 'relative',
-        overflow: 'hidden',
-        // Dinamik background
-        background: (theme) => theme.palette.mode === 'dark'
-          ? 'linear-gradient(-45deg, #0f172a, #1e293b, #0f172a, #1e293b)'
-          : 'linear-gradient(-45deg, #ffffff, #f1f5f9, #ffffff, #f1f5f9)', // Çok hafif gri geçişler
-        backgroundSize: '400% 400%',
-        animation: `${gradientAnimation} 15s ease infinite`,
-        pt: { xs: 10, md: 12 },
-      }}
+    <canvas
+      ref={canvasRef}
+      className="absolute inset-0 w-full h-full pointer-events-none"
+      style={{ opacity: 0.18 }}
+      aria-hidden
+    />
+  );
+}
+
+// ── Typewriter hook ───────────────────────────────────────────────────────────
+function useTypewriter(text: string, speed = 65, startDelay = 900) {
+  const [displayed, setDisplayed] = useState('');
+  const [done, setDone] = useState(false);
+
+  useEffect(() => {
+    setDisplayed('');
+    setDone(false);
+
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced) {
+      setDisplayed(text);
+      setDone(true);
+      return;
+    }
+
+    let i = 0;
+    let interval: ReturnType<typeof setInterval>;
+    const outer = setTimeout(() => {
+      interval = setInterval(() => {
+        i++;
+        setDisplayed(text.slice(0, i));
+        if (i >= text.length) {
+          clearInterval(interval);
+          setDone(true);
+        }
+      }, speed);
+    }, startDelay);
+
+    return () => {
+      clearTimeout(outer);
+      clearInterval(interval);
+    };
+  }, [text, speed, startDelay]);
+
+  return { displayed, done };
+}
+
+// ── Hero ──────────────────────────────────────────────────────────────────────
+const SOCIALS = [
+  { icon: Github,   href: 'https://github.com/Emrhn1',                             label: 'GitHub'   },
+  { icon: Linkedin, href: 'https://www.linkedin.com/in/emirhan-erkan-0aa03424b/', label: 'LinkedIn' },
+  { icon: Mail,     href: 'mailto:oyuncut80@gmail.com',                            label: 'Email'    },
+];
+
+const METRICS = [
+  { value: '06',   metricKey: 'projects' },
+  { value: '12',   metricKey: 'stack'    },
+  { value: '2022', metricKey: 'since'    },
+] as const;
+
+export default function Hero() {
+  const t = useTranslations('hero');
+  const { displayed, done } = useTypewriter(t('name'));
+
+  const scrollTo = (id: string) =>
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+
+  return (
+    <section
+      id="hero"
+      className="relative min-h-screen flex items-center overflow-hidden pt-14
+                 font-[family-name:var(--font-space-mono)]"
     >
-      {/* Animated Background Elements */}
-      <Box
-        sx={{
-          position: 'absolute',
-          top: '20%',
-          right: '10%',
-          width: '300px',
-          height: '300px',
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(59, 130, 246, 0.2), transparent)',
-          filter: 'blur(60px)',
-          animation: `${float} 6s ease-in-out infinite`,
-        }}
-      />
-      <Box
-        sx={{
-          position: 'absolute',
-          bottom: '10%',
-          left: '5%',
-          width: '400px',
-          height: '400px',
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(139, 92, 246, 0.2), transparent)',
-          filter: 'blur(80px)',
-          animation: `${float} 8s ease-in-out infinite`,
-          animationDelay: '2s',
-        }}
-      />
+      {/* Falling code background */}
+      <CodeRain />
 
-      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
-        <Grid container spacing={6} sx={{ alignItems: 'center' }}>
-          <Grid size={{ xs: 12, md: 7 }}>
-            <Box>
-              <Box sx={{ mb: 2 }}>
-                <Typography
-                  variant="overline"
-                  component="div"
-                  sx={{
-                    color: '#3b82f6',
-                    fontWeight: 600,
-                    letterSpacing: 2,
-                  }}
-                >
-                  <SplitText text="FRONTEND DEVELOPER" delay={0.1} />
-                </Typography>
-              </Box>
-              
-              <Typography
-                variant="h1"
-                component="div"
-                sx={{
-                  fontSize: { xs: '2.5rem', sm: '3.5rem', md: '4.5rem' },
-                  fontWeight: 900,
-                  mb: 2,
-                  lineHeight: 1.2,
-                  background: 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #ec4899 100%)',
-                  backgroundSize: '200% auto',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  animation: `${gradientAnimation} 3s ease infinite`,
-                }}
-              >
-                <Box sx={{ display: 'block' }}>
-                  <SplitText text="Merhaba," delay={0.2} />
-                </Box>
-                <Box sx={{ display: 'block' }}>
-                  <SplitText text="Ben Emirhan Erkan" delay={0.4} />
-                </Box>
-              </Typography>
-              
-              <Box sx={{ mb: 4, maxWidth: '650px' }}>
-                <Typography
-                  variant="h5"
-                  component="div"
-                  color="text.secondary"
-                  sx={{ 
-                    lineHeight: 1.6,
-                    fontSize: { xs: '1.1rem', md: '1.3rem' },
-                  }}
-                >
-                  <SplitText 
-                    text="Modern web teknolojileri ile kullanıcı dostu ve performanslı web uygulamaları geliştiriyorum. Kullanıcı deneyimini ön planda tutarak,estetik 
-                    tasarımları temiz kod yapısıyla birleştiriyor ve etkileşimli arayüzler oluşturuyorum." 
-                    delay={0.5}
-                  />
-                </Typography>
-              </Box>
+      {/* Vignette — keeps text readable over code rain */}
+      <div className="absolute inset-0 pointer-events-none
+                      bg-gradient-to-b from-[var(--bg)]/70 via-[var(--bg)]/30 to-[var(--bg)]/70" />
 
-              <Box sx={{ mb: 4, display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-                {skills.map((skill, index) => (
-                  <Chip
-                    key={index}
-                    label={skill}
-                    sx={{
-                      background: 'rgba(59, 130, 246, 0.1)',
-                      border: '1px solid rgba(59, 130, 246, 0.3)',
-                      color: '#3b82f6',
-                      fontWeight: 600,
-                      transition: 'all 0.3s ease',
-                      '&:hover': {
-                        background: 'rgba(59, 130, 246, 0.2)',
-                        transform: 'translateY(-2px)',
-                      },
-                    }}
-                  />
-                ))}
-              </Box>
-              
-              <Box sx={{ display: 'flex', gap: 2, mb: 4, flexWrap: 'wrap' }}>
-                <Button
-                  variant="contained"
-                  size="large"
-                  href="#projects"
-                  sx={{
-                    px: 4,
-                    py: 1.5,
-                    fontSize: '1.1rem',
-                    fontWeight: 600,
-                    background: 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)',
-                    animation: `${glow} 2s ease-in-out infinite`,
-                    '&:hover': {
-                      background: 'linear-gradient(135deg, #2563eb 0%, #7c3aed 100%)',
-                      transform: 'translateY(-2px)',
-                    },
-                    transition: 'all 0.3s ease',
-                  }}
-                >
-                  Projeleri Gör
-                </Button>
-                <Button
-                  variant="outlined"
-                  size="large"
-                  href="#contact"
-                  sx={{
-                    px: 4,
-                    py: 1.5,
-                    fontSize: '1.1rem',
-                    fontWeight: 600,
-                    borderWidth: 2,
-                    borderColor: '#3b82f6',
-                    color: '#3b82f6',
-                    '&:hover': {
-                      borderWidth: 2,
-                      background: 'rgba(59, 130, 246, 0.1)',
-                      transform: 'translateY(-2px)',
-                    },
-                    transition: 'all 0.3s ease',
-                  }}
-                >
-                  İletişime Geç
-                </Button>
-              </Box>
+      <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 w-full py-20">
 
-              <Box sx={{ display: 'flex', gap: 2 }}>
-                <IconButton
-                  href="https://github.com/Emrhn1"
-                  target="_blank"
-                  sx={{
-                    border: '2px solid rgba(255,255,255,0.1)',
-                    transition: 'all 0.3s ease',
-                    '&:hover': {
-                      borderColor: '#3b82f6',
-                      transform: 'translateY(-3px) rotate(5deg)',
-                      background: 'rgba(59, 130, 246, 0.1)',
-                    },
-                  }}
-                >
-                  <GitHub />
-                </IconButton>
-                <IconButton
-                  href="https://www.linkedin.com/in/emirhan-erkan-0aa03424b/"
-                  target="_blank"
-                  sx={{
-                    border: '2px solid rgba(255,255,255,0.1)',
-                    transition: 'all 0.3s ease',
-                    '&:hover': {
-                      borderColor: '#0077b5',
-                      transform: 'translateY(-3px) rotate(-5deg)',
-                      background: 'rgba(0, 119, 181, 0.1)',
-                    },
-                  }}
-                >
-                  <LinkedIn />
-                </IconButton>
-                <IconButton
-                  href="mailto:oyuncut80@gmail.com"
-                  sx={{
-                    border: '2px solid rgba(255,255,255,0.1)',
-                    transition: 'all 0.3s ease',
-                    '&:hover': {
-                      borderColor: '#8b5cf6',
-                      transform: 'translateY(-3px) rotate(5deg)',
-                      background: 'rgba(139, 92, 246, 0.1)',
-                    },
-                  }}
-                >
-                  <Email />
-                </IconButton>
-              </Box>
-            </Box>
-          </Grid>
+        {/* Prompt line */}
+        <p className="flex items-center gap-1.5 text-xs text-[var(--muted)] mb-8">
+          <span className="text-terminal-green">emirhan@dev</span>
+          <span>:~$</span>
+          <span className="text-[var(--fg)]">whoami</span>
+          <span className="ml-1 w-2 h-[0.9em] bg-terminal-green/60 animate-cursor-blink inline-block align-middle" />
+        </p>
 
-          <Grid size={{ xs: 12, md: 5 }}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-              {features.map((feature, index) => (
-                <Card
-                  key={index}
-                  sx={{
-                    background: (theme) => theme.palette.mode === 'dark' 
-                      ? 'rgba(30, 41, 59, 0.5)' 
-                      : 'rgba(255, 255, 255, 0.8)',
-                    backdropFilter: 'blur(10px)',
-                    border: (theme) => `1px solid ${theme.palette.mode === 'dark' ? 'rgba(59, 130, 246, 0.2)' : 'rgba(59, 130, 246, 0.1)'}`,
-                    transition: 'all 0.3s ease',
-                    '&:hover': {
-                      transform: 'translateX(10px)',
-                      border: '1px solid rgba(59, 130, 246, 0.5)',
-                      background: (theme) => theme.palette.mode === 'dark' 
-                        ? 'rgba(30, 41, 59, 0.8)' 
-                        : '#ffffff', // Light mode hover rengi
-                      boxShadow: (theme) => theme.palette.mode === 'light' ? '0 10px 15px -3px rgba(0, 0, 0, 0.1)' : 'none',
-                    },
-                  }}
-                >
-                  <CardContent sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-                    <Box
-                      sx={{
-                        color: '#3b82f6',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                      }}
-                    >
-                      {feature.icon}
-                    </Box>
-                    <Box>
-                      <Typography variant="h6" sx={{ fontWeight: 700, mb: 0.5 }}>
-                        {feature.title}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        {feature.description}
-                      </Typography>
-                    </Box>
-                  </CardContent>
-                </Card>
-              ))}
-            </Box>
-          </Grid>
-        </Grid>
-      </Container>
-    </Box>
+        {/* Role */}
+        <p className="text-[11px] tracking-[0.35em] text-terminal-green uppercase mb-4">
+          {t('role')}
+        </p>
+
+        {/* Greeting */}
+        <p className="text-2xl sm:text-3xl font-bold text-[var(--fg)] mb-2">
+          {t('greeting')}
+        </p>
+
+        {/* Name — typing animation */}
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[var(--fg)] mb-8 min-h-[1.3em]">
+          {displayed}
+          <span
+            className={[
+              'inline-block w-[3px] h-[0.85em] ml-1 align-middle bg-terminal-green',
+              done ? 'animate-cursor-blink' : 'opacity-100',
+            ].join(' ')}
+          />
+        </h1>
+
+        {/* Bio */}
+        <p className="text-sm text-[var(--muted)] leading-relaxed max-w-lg mb-10">
+          {t('bio')}
+        </p>
+
+        {/* CTA buttons — terminal style */}
+        <div className="flex flex-wrap gap-3 mb-12">
+          <button
+            onClick={() => scrollTo('projects')}
+            className="group flex items-center gap-2 px-5 py-2.5 text-sm rounded
+                       border border-terminal-green/40 text-terminal-green
+                       hover:bg-terminal-green/10 hover:border-terminal-green
+                       transition-all duration-200"
+          >
+            <span className="text-terminal-green/50 group-hover:text-terminal-green transition-colors">
+              &gt;
+            </span>
+            ./projects
+          </button>
+          <button
+            onClick={() => scrollTo('contact')}
+            className="group flex items-center gap-2 px-5 py-2.5 text-sm rounded
+                       border border-[var(--border)] text-[var(--muted)]
+                       hover:border-terminal-amber/50 hover:text-terminal-amber
+                       transition-all duration-200"
+          >
+            <span className="opacity-0 group-hover:opacity-100 transition-opacity text-terminal-amber">
+              &gt;
+            </span>
+            ./contact
+          </button>
+        </div>
+
+        {/* Metrics band */}
+        <div className="flex w-fit mb-10 rounded border border-terminal-green/20 overflow-hidden">
+          {METRICS.map(({ value, metricKey }, i) => (
+            <div
+              key={metricKey}
+              className={[
+                'px-6 py-3 bg-terminal-green/5 hover:bg-terminal-green/10 transition-colors',
+                i < METRICS.length - 1 ? 'border-r border-terminal-green/20' : '',
+              ].join(' ')}
+            >
+              <p className="text-xl font-bold text-terminal-green leading-none">
+                {value}
+              </p>
+              <p className="text-[10px] text-[var(--muted)] mt-1 tracking-widest uppercase">
+                {t(`metrics.${metricKey}`)}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        {/* Social links */}
+        <div className="flex items-center gap-2">
+          {SOCIALS.map(({ icon: Icon, href, label }) => (
+            <a
+              key={label}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={label}
+              className="p-2 rounded border border-[var(--border)] text-[var(--muted)]
+                         hover:border-terminal-green/50 hover:text-terminal-green
+                         transition-all duration-200"
+            >
+              <Icon size={16} />
+            </a>
+          ))}
+        </div>
+
+      </div>
+    </section>
   );
 }

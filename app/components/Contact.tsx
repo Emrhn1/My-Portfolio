@@ -1,390 +1,261 @@
-// app/components/Contact.tsx
 'use client';
-import { Container, Typography, Box, TextField, Button, Card, CardContent, Alert, CircularProgress } from '@mui/material';
-import {Grid} from '@mui/system';
-import { Email, Phone, LocationOn, Send } from '@mui/icons-material';
-import { keyframes } from '@mui/system';
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { useTranslations } from 'next-intl';
+import { Mail, Phone, MapPin, Clock, Send, Loader2, CheckCircle2, XCircle } from 'lucide-react';
 
-const float = keyframes`
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-15px); }
-`;
+// ── Zod schema ────────────────────────────────────────────────────────────────
+const schema = z.object({
+  name:    z.string().min(2, 'En az 2 karakter').max(80),
+  email:   z.string().email('Geçerli bir e-posta girin'),
+  subject: z.string().min(3, 'En az 3 karakter').max(120),
+  message: z.string().min(10, 'En az 10 karakter').max(2000),
+});
+type FormValues = z.infer<typeof schema>;
 
-const gradientAnimation = keyframes`
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-`;
+// ── Terminal prompt input ─────────────────────────────────────────────────────
+function TerminalField({
+  prompt,
+  error,
+  children,
+}: {
+  prompt: string;
+  error?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="group">
+      <div
+        className={[
+          'flex items-start gap-2 rounded border px-3 py-2.5 transition-colors duration-150',
+          'bg-terminal-green/[0.03] font-[family-name:var(--font-space-mono)]',
+          error
+            ? 'border-red-500/40 focus-within:border-red-500/70'
+            : 'border-terminal-green/20 focus-within:border-terminal-green/50',
+        ].join(' ')}
+      >
+        <span className="text-terminal-green text-xs mt-[3px] flex-shrink-0 select-none">
+          {prompt}&gt;
+        </span>
+        {children}
+      </div>
+      {error && (
+        <p className="mt-1 ml-1 text-[10px] text-red-400 font-[family-name:var(--font-space-mono)]">
+          [ERR] {error}
+        </p>
+      )}
+    </div>
+  );
+}
 
+// ── Input / Textarea shared style ─────────────────────────────────────────────
+const fieldClass =
+  'flex-1 bg-transparent text-xs text-[var(--fg)] placeholder:text-[var(--muted)]/50 outline-none caret-terminal-green';
+
+// ── Contact info cards ────────────────────────────────────────────────────────
+const contactInfo = [
+  { icon: Mail,   label: 'email',   value: 'oyuncut80@gmail.com',    href: 'mailto:oyuncut80@gmail.com' },
+  { icon: Phone,  label: 'phone',   value: '+90 536 793 6456',       href: 'tel:+905367936456' },
+  { icon: MapPin, label: 'location',value: 'İstanbul, Türkiye',      href: '#' },
+] as const;
+
+// ── Main component ────────────────────────────────────────────────────────────
 export default function Contact() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: '',
-  });
-  const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState('');
+  const t = useTranslations('contact');
+  const [status, setStatus] = useState<'idle' | 'ok' | 'err'>('idle');
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<FormValues>({ resolver: zodResolver(schema) });
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
-    setSuccess(false);
-
+  const onSubmit = async (data: FormValues) => {
+    setStatus('idle');
     try {
-      const response = await fetch('/api/contact', {
+      const res = await fetch('/api/contact', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
       });
-
-      if (response.ok) {
-        setSuccess(true);
-        setFormData({
-          name: '',
-          email: '',
-          subject: '',
-          message: '',
-        });
+      if (res.ok) {
+        setStatus('ok');
+        reset();
       } else {
-        const data = await response.json();
-        setError(data.error || 'Bir hata oluştu. Lütfen tekrar deneyin.');
+        setStatus('err');
       }
-    } catch (err) {
-      setError('Bir hata oluştu. Lütfen tekrar deneyin.');
-    } finally {
-      setLoading(false);
+    } catch {
+      setStatus('err');
     }
   };
 
-  const contactInfo = [
-    {
-      icon: <Email sx={{ fontSize: 40 }} />,
-      title: 'Email',
-      value: 'oyuncut80@gmail.com',
-      link: 'mailto:oyuncut80@gmail.com',
-    },
-    {
-      icon: <Phone sx={{ fontSize: 40 }} />,
-      title: 'Telefon',
-      value: '+90 536 793 6456',
-      link: 'tel:+905367936456',
-    },
-    {
-      icon: <LocationOn sx={{ fontSize: 40 }} />,
-      title: 'Konum',
-      value: 'İstanbul, Türkiye',
-      link: '#',
-    },
-  ];
-
   return (
-    <Box
+    <section
       id="contact"
-      sx={{
-        minHeight: '100vh',
-        py: 10,
-        position: 'relative',
-        overflow: 'hidden',
-        // Dinamik background
-        background: (theme) => theme.palette.mode === 'dark'
-          ? 'linear-gradient(-45deg, #0f172a, #1e293b, #0f172a, #1e293b)'
-          : 'linear-gradient(-45deg, #ffffff, #f1f5f9, #ffffff, #f1f5f9)',
-        backgroundSize: '400% 400%',
-        animation: `${gradientAnimation} 15s ease infinite`,
-      }}
+      className="py-24 px-4 sm:px-6 font-[family-name:var(--font-space-mono)]"
     >
-      {/* Background Effects */}
-      <Box
-        sx={{
-          position: 'absolute',
-          top: '20%',
-          right: '5%',
-          width: '400px',
-          height: '400px',
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(59, 130, 246, 0.15), transparent)',
-          filter: 'blur(80px)',
-          animation: `${float} 8s ease-in-out infinite`,
-        }}
-      />
+      <div className="max-w-6xl mx-auto">
 
-      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
-        <Box sx={{ textAlign: 'center', mb: 8 }}>
-          <Typography
-            variant="overline"
-            sx={{
-              color: '#3b82f6',
-              fontWeight: 600,
-              letterSpacing: 2,
-              mb: 2,
-              display: 'block',
-            }}
-          >
-            İLETİŞİM
-          </Typography>
-          <Typography
-            variant="h2"
-            sx={{
-              fontSize: { xs: '2rem', md: '3rem' },
-              fontWeight: 900,
-              mb: 2,
-              background: 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-            }}
-          >
-            Benimle İletişime Geçin
-          </Typography>
-          <Typography
-            variant="body1"
-            color="text.secondary"
-            sx={{ maxWidth: '600px', mx: 'auto', fontSize: '1.1rem' }}
-          >
-            Proje fikirleri, iş birlikleri veya sorularınız için bana ulaşabilirsiniz.
-          </Typography>
-        </Box>
+        {/* Terminal header */}
+        <div className="mb-10">
+          <p className="text-xs text-[var(--muted)] mb-3">
+            <span className="text-terminal-green">emirhan@dev</span>
+            <span>:~$&nbsp;</span>
+            <span className="text-[var(--fg)]">./contact --open</span>
+          </p>
+          <p className="text-[11px] tracking-[0.3em] text-terminal-green uppercase mb-2">
+            {t('label')}
+          </p>
+          <h2 className="text-2xl md:text-3xl font-bold text-[var(--fg)]">{t('title')}</h2>
+          <p className="text-sm text-[var(--muted)] mt-2 max-w-xl">{t('subtitle')}</p>
+        </div>
 
-        <Grid container spacing={4}>
-          <Grid size={{ xs: 12, md: 5 }}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-              {contactInfo.map((info, index) => (
-                <Card
-                  key={index}
-                  component="a"
-                  href={info.link}
-                  sx={{
-                    background: (theme) => theme.palette.mode === 'dark' 
-                      ? 'rgba(30, 41, 59, 0.5)' 
-                      : '#ffffff',
-                    backdropFilter: 'blur(10px)',
-                    border: (theme) => `1px solid ${theme.palette.mode === 'dark' ? 'rgba(59, 130, 246, 0.2)' : 'rgba(59, 130, 246, 0.1)'}`,
-                    boxShadow: (theme) => theme.palette.mode === 'light' ? '0 4px 6px -1px rgba(0, 0, 0, 0.1)' : 'none',
-                    transition: 'all 0.3s ease',
-                    textDecoration: 'none',
-                    cursor: 'pointer',
-                    '&:hover': {
-                      transform: 'translateY(-5px)',
-                      border: '1px solid rgba(59, 130, 246, 0.5)',
-                      background: (theme) => theme.palette.mode === 'dark' ? 'rgba(30, 41, 59, 0.8)' : '#f8fafc',
-                    },
-                  }}
-                >
-                  <CardContent sx={{ display: 'flex', gap: 3, alignItems: 'center', p: 3 }}>
-                    <Box
-                      sx={{
-                        color: '#3b82f6',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        minWidth: 60,
-                      }}
-                    >
-                      {info.icon}
-                    </Box>
-                    <Box>
-                      <Typography variant="body2" color="text.secondary" sx={{ mb: 0.5 }}>
-                        {info.title}
-                      </Typography>
-                      <Typography variant="h6" sx={{ fontWeight: 600, color: 'text.primary' }}>
-                        {info.value}
-                      </Typography>
-                    </Box>
-                  </CardContent>
-                </Card>
-              ))}
+        <div className="grid md:grid-cols-[5fr_7fr] gap-8">
 
-              <Box
-                sx={{
-                  mt: 2,
-                  p: 4,
-                  background: 'rgba(59, 130, 246, 0.1)',
-                  border: '1px solid rgba(59, 130, 246, 0.3)',
-                  borderRadius: 3,
-                }}
+          {/* Left — info cards */}
+          <div className="flex flex-col gap-3">
+            {contactInfo.map(({ icon: Icon, label, value, href }) => (
+              <a
+                key={label}
+                href={href}
+                className="flex items-center gap-3 p-4 rounded-lg border border-terminal-green/20
+                           bg-terminal-green/[0.03] hover:border-terminal-green/40
+                           hover:bg-terminal-green/[0.07] transition-all duration-200 group"
               >
-                <Typography variant="h6" sx={{ fontWeight: 700, mb: 2, color: 'text.primary' }}>
-                  Çalışma Saatleri
-                </Typography>
-                <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-                  Pazartesi - Cuma: 09:00 - 18:00
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Hafta Sonu: Proje Bazlı
-                </Typography>
-              </Box>
-            </Box>
-          </Grid>
+                <div className="w-8 h-8 rounded border border-terminal-green/25 flex items-center justify-center
+                                group-hover:border-terminal-green/50 transition-colors flex-shrink-0">
+                  <Icon size={14} className="text-terminal-green" />
+                </div>
+                <div>
+                  <p className="text-[10px] text-[var(--muted)] uppercase tracking-widest mb-0.5">{label}</p>
+                  <p className="text-xs text-[var(--fg)]">{value}</p>
+                </div>
+              </a>
+            ))}
 
-          <Grid size={{ xs: 12, md: 7 }}>
-            <Card
-              sx={{
-                background: (theme) => theme.palette.mode === 'dark' 
-                  ? 'rgba(30, 41, 59, 0.5)' 
-                  : '#ffffff',
-                backdropFilter: 'blur(10px)',
-                border: (theme) => `1px solid ${theme.palette.mode === 'dark' ? 'rgba(59, 130, 246, 0.2)' : 'rgba(59, 130, 246, 0.1)'}`,
-                boxShadow: (theme) => theme.palette.mode === 'light' ? '0 4px 6px -1px rgba(0, 0, 0, 0.1)' : 'none',
-              }}
+            {/* Working hours */}
+            <div className="p-4 rounded-lg border border-terminal-green/20 bg-terminal-green/[0.03] mt-1">
+              <div className="flex items-center gap-2 mb-3">
+                <Clock size={13} className="text-terminal-green" />
+                <span className="text-[10px] uppercase tracking-widest text-terminal-green">
+                  {t('workingHours')}
+                </span>
+              </div>
+              <p className="text-xs text-[var(--muted)]">{t('workingHoursValue')}</p>
+              <div className="mt-3 flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-terminal-green animate-pulse" />
+                <span className="text-[10px] text-[var(--muted)]">
+                  {t('responseTime')}: <span className="text-terminal-green">{t('responseTimeValue')}</span>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Right — terminal form */}
+          <div className="rounded-lg border border-terminal-green/20 overflow-hidden">
+
+            {/* Terminal chrome */}
+            <div className="flex items-center gap-2 px-4 py-2.5 bg-terminal-green/5 border-b border-terminal-green/20">
+              <div className="flex items-center gap-1.5">
+                <div className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
+                <div className="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]" />
+                <div className="w-2.5 h-2.5 rounded-full bg-[#28ca41]" />
+              </div>
+              <span className="text-[10px] text-[var(--muted)] ml-2 truncate">
+                ~/contact$ send-message
+              </span>
+            </div>
+
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="p-5 flex flex-col gap-4 bg-[var(--card-bg)]"
             >
-              <CardContent sx={{ p: 4 }}>
-                <form onSubmit={handleSubmit}>
-                  <Grid container spacing={3}>
-                    <Grid size={{ xs: 12, sm: 6 }}>
-                      <TextField
-                        fullWidth
-                        label="Adınız"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        required
-                        sx={{
-                          '& .MuiOutlinedInput-root': {
-                            '& fieldset': {
-                              borderColor: (theme) => theme.palette.mode === 'dark' ? 'rgba(59, 130, 246, 0.3)' : 'rgba(0, 0, 0, 0.2)',
-                            },
-                            '&:hover fieldset': {
-                              borderColor: 'rgba(59, 130, 246, 0.5)',
-                            },
-                            '&.Mui-focused fieldset': {
-                              borderColor: '#3b82f6',
-                            },
-                          },
-                          '& .MuiInputLabel-root': {
-                            color: 'text.secondary',
-                          },
-                          '& .MuiInputBase-input': {
-                            color: 'text.primary',
-                          },
-                        }}
-                      />
-                    </Grid>
-                    <Grid size={{ xs: 12, sm: 6 }}>
-                      <TextField
-                        fullWidth
-                        label="Email"
-                        name="email"
-                        type="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        required
-                        sx={{
-                          '& .MuiOutlinedInput-root': {
-                            '& fieldset': {
-                              borderColor: 'rgba(59, 130, 246, 0.3)',
-                            },
-                            '&:hover fieldset': {
-                              borderColor: 'rgba(59, 130, 246, 0.5)',
-                            },
-                            '&.Mui-focused fieldset': {
-                              borderColor: '#3b82f6',
-                            },
-                          },
-                        }}
-                      />
-                    </Grid>
-                    <Grid size={{ xs: 12 }}>
-                      <TextField
-                        fullWidth
-                        label="Konu"
-                        name="subject"
-                        value={formData.subject}
-                        onChange={handleChange}
-                        required
-                        sx={{
-                          '& .MuiOutlinedInput-root': {
-                            '& fieldset': {
-                              borderColor: 'rgba(59, 130, 246, 0.3)',
-                            },
-                            '&:hover fieldset': {
-                              borderColor: 'rgba(59, 130, 246, 0.5)',
-                            },
-                            '&.Mui-focused fieldset': {
-                              borderColor: '#3b82f6',
-                            },
-                          },
-                        }}
-                      />
-                    </Grid>
-                    <Grid size={{ xs: 12 }}>
-                      <TextField
-                        fullWidth
-                        label="Mesajınız"
-                        name="message"
-                        value={formData.message}
-                        onChange={handleChange}
-                        required
-                        multiline
-                        rows={6}
-                        sx={{
-                          '& .MuiOutlinedInput-root': {
-                            '& fieldset': {
-                              borderColor: 'rgba(59, 130, 246, 0.3)',
-                            },
-                            '&:hover fieldset': {
-                              borderColor: 'rgba(59, 130, 246, 0.5)',
-                            },
-                            '&.Mui-focused fieldset': {
-                              borderColor: '#3b82f6',
-                            },
-                          },
-                        }}
-                      />
-                    </Grid>
-                    {error && (
-                      <Grid size={{ xs: 12 }}>
-                        <Alert severity="error">{error}</Alert>
-                      </Grid>
-                    )}
-                    {success && (
-                      <Grid size={{ xs: 12 }}>
-                        <Alert severity="success">
-                          Mesajınız başarıyla gönderildi! En kısa sürede size dönüş yapacağım.
-                        </Alert>
-                      </Grid>
-                    )}
-                    <Grid size={{ xs: 12 }}>
-                      <Button
-                        type="submit"
-                        variant="contained"
-                        size="large"
-                        fullWidth
-                        disabled={loading}
-                        endIcon={loading ? <CircularProgress size={20} /> : <Send />}
-                        sx={{
-                          py: 1.5,
-                          fontSize: '1.1rem',
-                          fontWeight: 600,
-                          background: 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)',
-                          '&:hover': {
-                            background: 'linear-gradient(135deg, #2563eb 0%, #7c3aed 100%)',
-                            transform: 'translateY(-2px)',
-                          },
-                          transition: 'all 0.3s ease',
-                        }}
-                      >
-                        {loading ? 'Gönderiliyor...' : 'Mesaj Gönder'}
-                      </Button>
-                    </Grid>
-                  </Grid>
-                </form>
-              </CardContent>
-            </Card>
-          </Grid>
-        </Grid>
-      </Container>
-    </Box>
+              {/* name + email row */}
+              <div className="grid sm:grid-cols-2 gap-4">
+                <TerminalField prompt={t('name')} error={errors.name?.message}>
+                  <input
+                    {...register('name')}
+                    placeholder="Emirhan"
+                    autoComplete="name"
+                    className={fieldClass}
+                  />
+                </TerminalField>
+                <TerminalField prompt={t('email')} error={errors.email?.message}>
+                  <input
+                    {...register('email')}
+                    type="email"
+                    placeholder="emirhan@dev.io"
+                    autoComplete="email"
+                    className={fieldClass}
+                  />
+                </TerminalField>
+              </div>
+
+              {/* subject */}
+              <TerminalField prompt={t('subject')} error={errors.subject?.message}>
+                <input
+                  {...register('subject')}
+                  placeholder="İş teklifi, freelance..."
+                  className={fieldClass}
+                />
+              </TerminalField>
+
+              {/* message */}
+              <TerminalField prompt={t('message')} error={errors.message?.message}>
+                <textarea
+                  {...register('message')}
+                  rows={6}
+                  placeholder="Mesajınızı buraya yazın..."
+                  className={`${fieldClass} resize-none leading-relaxed`}
+                />
+              </TerminalField>
+
+              {/* Status messages */}
+              {status === 'ok' && (
+                <div className="flex items-center gap-2 px-3 py-2.5 rounded border border-terminal-green/40
+                                bg-terminal-green/10 text-terminal-green text-xs">
+                  <CheckCircle2 size={13} />
+                  <span><span className="font-bold">[OK]</span>&nbsp;{t('successMessage')}</span>
+                </div>
+              )}
+              {status === 'err' && (
+                <div className="flex items-center gap-2 px-3 py-2.5 rounded border border-red-500/40
+                                bg-red-500/10 text-red-400 text-xs">
+                  <XCircle size={13} />
+                  <span><span className="font-bold">[ERR]</span>&nbsp;{t('errorMessage')}</span>
+                </div>
+              )}
+
+              {/* Submit */}
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="flex items-center justify-center gap-2 py-2.5 rounded border
+                           border-terminal-green/40 bg-terminal-green/10 text-terminal-green text-xs
+                           hover:bg-terminal-green/20 hover:border-terminal-green/60
+                           disabled:opacity-50 disabled:cursor-not-allowed
+                           transition-all duration-200"
+              >
+                {isSubmitting ? (
+                  <>
+                    <Loader2 size={13} className="animate-spin" />
+                    {t('sending')}
+                  </>
+                ) : (
+                  <>
+                    <Send size={13} />
+                    {t('send')}
+                    <span className="text-[10px] opacity-60 ml-1">↵</span>
+                  </>
+                )}
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
