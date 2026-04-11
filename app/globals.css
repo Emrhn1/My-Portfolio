@@ -1,27 +1,193 @@
-/* app/globals.css */
-/* Mevcut içeriği temizleyip sadece Tailwind direktiflerini bırakalım */
 @import "tailwindcss";
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+/* Dark mode: next-themes adds .dark to <html> */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ── Design Tokens ──────────────────────────────────────────── */
+@theme {
+  --color-terminal-green: #00ff41;
+  --color-terminal-amber: #ffb000;
+  --color-crt-black: #0a0a0a;
+  --color-neon-blue: #3b82f6;
+  --color-neon-violet: #8b5cf6;
+
+  --font-display: "Space Mono", monospace;
+  --font-body: "JetBrains Mono", monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+/* ── Base ───────────────────────────────────────────────────── */
+:root {
+  --bg: #ffffff;
+  --fg: #1e293b;
+  --muted: #64748b;
+  --border: rgba(0, 0, 0, 0.1);
+  --card-bg: #ffffff;
+}
+
+.dark {
+  --bg: #0f172a;
+  --fg: #f1f5f9;
+  --muted: #94a3b8;
+  --border: rgba(255, 255, 255, 0.08);
+  --card-bg: rgba(30, 41, 59, 0.6);
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background-color: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body), ui-monospace, monospace;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* ── Animation Keyframes ────────────────────────────────────── */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-20px); }
+}
+
+@keyframes float-sm {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-10px); }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.5); }
+  50%       { box-shadow: 0 0 40px rgba(139, 92, 246, 0.8); }
+}
+
+@keyframes gradient-shift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes crt-flicker {
+  0%   { opacity: 1; }
+  92%  { opacity: 1; }
+  93%  { opacity: 0.94; }
+  94%  { opacity: 1; }
+  99%  { opacity: 1; }
+  100% { opacity: 0.98; }
+}
+
+@keyframes cursor-blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* ── Utility Classes ────────────────────────────────────────── */
+
+/* Scan-lines overlay */
+.scan-lines {
+  position: relative;
+}
+.scan-lines::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.04) 2px,
+    rgba(0, 0, 0, 0.04) 4px
+  );
+  pointer-events: none;
+  z-index: 50;
+}
+
+/* Grain texture overlay */
+.grain-overlay::before {
+  content: '';
+  position: fixed;
+  inset: -50%;
+  width: 200%;
+  height: 200%;
+  background-image:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.025;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* CRT flicker — respects prefers-reduced-motion */
+@media (prefers-reduced-motion: no-preference) {
+  .crt-flicker {
+    animation: crt-flicker 8s infinite;
+  }
+}
+
+/* Animation helpers */
+.animate-float      { animation: float 6s ease-in-out infinite; }
+.animate-float-sm   { animation: float-sm 6s ease-in-out infinite; }
+.animate-glow-pulse { animation: glow-pulse 2s ease-in-out infinite; }
+.animate-gradient   {
+  background-size: 200% auto;
+  animation: gradient-shift 3s ease infinite;
+}
+.animate-cursor-blink { animation: cursor-blink 1s step-end infinite; }
+
+/* Gradient text helper */
+.gradient-text {
+  background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #ec4899 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Terminal cursor */
+.terminal-cursor::after {
+  content: '█';
+  animation: cursor-blink 1s step-end infinite;
+  color: var(--color-terminal-green);
+}
+
+/* ── Focus ring ─────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--color-terminal-green);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+/* ── Skip to content ────────────────────────────────────────── */
+.skip-to-content {
+  position: fixed;
+  top: -100%;
+  left: 1rem;
+  z-index: 9999;
+  padding: 0.5rem 1rem;
+  font-size: 0.75rem;
+  font-family: var(--font-display), monospace;
+  background: var(--color-terminal-green);
+  color: var(--color-crt-black);
+  border-radius: 0 0 4px 4px;
+  font-weight: 700;
+  transition: top 0.15s ease;
+}
+.skip-to-content:focus {
+  top: 0;
+  outline: none;
+}
+
+/* ── prefers-reduced-motion: disable CSS animations ─────────── */
+@media (prefers-reduced-motion: reduce) {
+  .animate-float,
+  .animate-float-sm,
+  .animate-glow-pulse,
+  .animate-gradient,
+  .animate-cursor-blink,
+  .crt-flicker,
+  .terminal-cursor::after {
+    animation: none;
+  }
+
+  body {
+    transition: none;
+  }
 }
