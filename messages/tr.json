@@ -1,0 +1,135 @@
+{
+  "metadata": {
+    "title": "Emirhan Erkan",
+    "description": "Frontend Developer Portföyü"
+  },
+  "nav": {
+    "about": "Hakkımda",
+    "skills": "Beceriler",
+    "projects": "Projeler",
+    "contact": "İletişim",
+    "home": "Anasayfa",
+    "downloadCV": "CV İndir",
+    "toggleTheme": "Tema Değiştir",
+    "switchLanguage": "Switch to English",
+    "searchPlaceholder": "Komut veya sayfa ara...",
+    "openMenu": "Menüyü Aç",
+    "closeMenu": "Menüyü Kapat"
+  },
+  "hero": {
+    "role": "FRONTEND GELİŞTİRİCİ",
+    "greeting": "Merhaba,",
+    "name": "Ben Emirhan Erkan",
+    "bio": "Modern web teknolojileri ile kullanıcı dostu ve performanslı web uygulamaları geliştiriyorum. Kullanıcı deneyimini ön planda tutarak, estetik tasarımları temiz kod yapısıyla birleştiriyor ve etkileşimli arayüzler geliştiriyorum.",
+    "cta_projects": "Projeleri Gör",
+    "cta_contact": "İletişime Geç",
+    "metrics": {
+      "projects": "PROJE",
+      "stack": "TEKNOLOJİ",
+      "since": "YILDAN BERİ"
+    },
+    "features": {
+      "cleanCode": {
+        "title": "Temiz Kod",
+        "desc": "Temiz ve sürdürülebilir kod yazımı"
+      },
+      "performance": {
+        "title": "Performans",
+        "desc": "Optimize edilmiş ve hızlı uygulamalar"
+      },
+      "innovation": {
+        "title": "Yenilik",
+        "desc": "Modern ve yenilikçi çözümler"
+      }
+    }
+  },
+  "about": {
+    "label": "HAKKIMDA",
+    "title": "Ben Kimim?",
+    "bio": "Türkiye'den bir frontend geliştirici. Modern web teknolojileriyle kullanıcı odaklı uygulamalar geliştiriyorum.",
+    "location": "Türkiye",
+    "education": "Eğitim",
+    "experience": "Deneyim",
+    "availableForWork": "İş tekliflerine açığım"
+  },
+  "projects": {
+    "label": "PORTFÖYÜm",
+    "title": "Projelerim",
+    "subtitle": "Üzerinde çalıştığım ve geliştirdiğim projeler. Her biri farklı teknolojiler ve yaklaşımlar kullanılarak oluşturuldu.",
+    "viewDetails": "Detayları Gör",
+    "viewGithub": "GitHub'da Gör",
+    "viewLive": "Canlıyı Gör",
+    "noProjectsFound": "Bu filtreye uygun proje bulunamadı.",
+    "filterAll": "Tümü",
+    "featured": "Öne Çıkan"
+  },
+  "projectDetail": {
+    "about": "Proje Hakkında",
+    "technologies": "Teknolojiler",
+    "features": "Öne Çıkan Özellikler",
+    "backToProjects": "Projelere Dön",
+    "visitSite": "Siteyi Ziyaret Et",
+    "viewCode": "Kodu İncele"
+  },
+  "skills": {
+    "label": "YETKİNLİKLER",
+    "title": "Teknik Beceriler",
+    "subtitle": "Kullandığım teknolojiler ve araçlar.",
+    "categories": {
+      "language": "Diller",
+      "framework": "Framework & Kütüphane",
+      "styling": "Stil & Tasarım",
+      "state": "State & Veri",
+      "tooling": "Araçlar"
+    },
+    "levels": {
+      "learning": "Öğreniyor",
+      "used": "Kullandım",
+      "comfortable": "Rahatlıkla Kullanıyorum",
+      "advanced": "İleri Seviye"
+    }
+  },
+  "contact": {
+    "label": "İLETİŞİM",
+    "title": "Bana Ulaşın",
+    "subtitle": "Proje, iş teklifi ya da sadece merhaba demek için yazmaktan çekinmeyin.",
+    "name": "İsim",
+    "email": "E-posta",
+    "subject": "Konu",
+    "message": "Mesaj",
+    "send": "Gönder",
+    "sending": "Gönderiliyor...",
+    "successMessage": "Mesajınız başarıyla gönderildi! En kısa sürede dönüş yapacağım.",
+    "errorMessage": "Mesaj gönderilirken bir hata oluştu. Lütfen tekrar deneyin.",
+    "workingHours": "Çalışma Saatleri",
+    "workingHoursValue": "Pazartesi - Cuma, 09:00 - 18:00",
+    "responseTime": "Yanıt Süresi",
+    "responseTimeValue": "24 saat içinde"
+  },
+  "footer": {
+    "madeWith": "Next.js ile yapıldı",
+    "rights": "Tüm hakları saklıdır."
+  },
+  "commandPalette": {
+    "placeholder": "Komut veya sayfa ara...",
+    "noResults": "Sonuç bulunamadı.",
+    "groups": {
+      "navigation": "Navigasyon",
+      "projects": "Projeler",
+      "actions": "Eylemler",
+      "external": "Bağlantılar"
+    },
+    "actions": {
+      "toggleTheme": "Temayı Değiştir",
+      "switchLanguage": "İngilizceye Geç",
+      "downloadCV": "CV İndir",
+      "goHome": "Anasayfa",
+      "goAbout": "Hakkımda",
+      "goProjects": "Projeler",
+      "goContact": "İletişim",
+      "github": "GitHub",
+      "linkedin": "LinkedIn",
+      "email": "E-posta Gönder"
+    }
+  }
+}

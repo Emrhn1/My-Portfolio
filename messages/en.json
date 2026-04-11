@@ -1,0 +1,135 @@
+{
+  "metadata": {
+    "title": "Emirhan Erkan",
+    "description": "Frontend Developer Portfolio"
+  },
+  "nav": {
+    "about": "About",
+    "skills": "Skills",
+    "projects": "Projects",
+    "contact": "Contact",
+    "home": "Home",
+    "downloadCV": "Download CV",
+    "toggleTheme": "Toggle Theme",
+    "switchLanguage": "Türkçeye Geç",
+    "searchPlaceholder": "Search commands or pages...",
+    "openMenu": "Open Menu",
+    "closeMenu": "Close Menu"
+  },
+  "hero": {
+    "role": "FRONTEND DEVELOPER",
+    "greeting": "Hello,",
+    "name": "I'm Emirhan Erkan",
+    "bio": "I develop user-friendly and high-performance web applications using modern web technologies. By prioritizing the user experience, I combine aesthetically pleasing designs with clean code and create interactive interfaces.",
+    "cta_projects": "View Projects",
+    "cta_contact": "Get in Touch",
+    "metrics": {
+      "projects": "PROJECTS",
+      "stack": "TECHNOLOGIES",
+      "since": "YEARS CODING"
+    },
+    "features": {
+      "cleanCode": {
+        "title": "Clean Code",
+        "desc": "Maintainable and well-structured code"
+      },
+      "performance": {
+        "title": "Performance",
+        "desc": "Optimized and fast applications"
+      },
+      "innovation": {
+        "title": "Innovation",
+        "desc": "Modern and creative solutions"
+      }
+    }
+  },
+  "about": {
+    "label": "ABOUT ME",
+    "title": "Who Am I?",
+    "bio": "A frontend developer from Turkey. I build user-centric applications with modern web technologies.",
+    "location": "Turkey",
+    "education": "Education",
+    "experience": "Experience",
+    "availableForWork": "Open to work opportunities"
+  },
+  "projects": {
+    "label": "PORTFOLIO",
+    "title": "My Projects",
+    "subtitle": "Projects I've built and shipped. Each one using different technologies and approaches.",
+    "viewDetails": "View Details",
+    "viewGithub": "View on GitHub",
+    "viewLive": "View Live",
+    "noProjectsFound": "No projects match this filter.",
+    "filterAll": "All",
+    "featured": "Featured"
+  },
+  "projectDetail": {
+    "about": "About This Project",
+    "technologies": "Technologies",
+    "features": "Key Features",
+    "backToProjects": "Back to Projects",
+    "visitSite": "Visit Site",
+    "viewCode": "View Code"
+  },
+  "skills": {
+    "label": "SKILLS",
+    "title": "Technical Skills",
+    "subtitle": "Technologies and tools I work with.",
+    "categories": {
+      "language": "Languages",
+      "framework": "Frameworks & Libraries",
+      "styling": "Styling & Design",
+      "state": "State & Data",
+      "tooling": "Tooling"
+    },
+    "levels": {
+      "learning": "Learning",
+      "used": "Used",
+      "comfortable": "Comfortable",
+      "advanced": "Advanced"
+    }
+  },
+  "contact": {
+    "label": "CONTACT",
+    "title": "Get In Touch",
+    "subtitle": "Whether it's a project, job offer, or just to say hi — feel free to reach out.",
+    "name": "Name",
+    "email": "Email",
+    "subject": "Subject",
+    "message": "Message",
+    "send": "Send",
+    "sending": "Sending...",
+    "successMessage": "Your message was sent successfully! I'll get back to you soon.",
+    "errorMessage": "Something went wrong sending your message. Please try again.",
+    "workingHours": "Working Hours",
+    "workingHoursValue": "Monday - Friday, 09:00 - 18:00",
+    "responseTime": "Response Time",
+    "responseTimeValue": "Within 24 hours"
+  },
+  "footer": {
+    "madeWith": "Built with Next.js",
+    "rights": "All rights reserved."
+  },
+  "commandPalette": {
+    "placeholder": "Search commands or pages...",
+    "noResults": "No results found.",
+    "groups": {
+      "navigation": "Navigation",
+      "projects": "Projects",
+      "actions": "Actions",
+      "external": "Links"
+    },
+    "actions": {
+      "toggleTheme": "Toggle Theme",
+      "switchLanguage": "Switch to Turkish",
+      "downloadCV": "Download CV",
+      "goHome": "Home",
+      "goAbout": "About",
+      "goProjects": "Projects",
+      "goContact": "Contact",
+      "github": "GitHub",
+      "linkedin": "LinkedIn",
+      "email": "Send Email"
+    }
+  }
+}
