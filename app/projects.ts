@@ -1,18 +1,3 @@
-import { ShoppingCart, Payment, LocalShipping, Inventory, AdminPanelSettings, TrendingUp, Chat, Notifications, Group, SmartToy, AutoAwesome, Speed, BarChart, PieChart, FilterList, AccountBalanceWallet, Security, Layers, FitnessCenter, Restaurant, Timer } from '@mui/icons-material';
-import CategoryIcon from '@mui/icons-material/Category';
-import TuneIcon from '@mui/icons-material/Tune';
-import DescriptionIcon from '@mui/icons-material/Description';
-import ZoomInIcon from '@mui/icons-material/ZoomIn';
-import PublicIcon from '@mui/icons-material/Public';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
-import BookmarkIcon from '@mui/icons-material/Bookmark';
-import WebAssetIcon from '@mui/icons-material/WebAsset';
-import ChecklistIcon from '@mui/icons-material/Checklist';
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
-import ContrastIcon from '@mui/icons-material/Contrast';
 export interface Project {
   slug: string;
   title: string;
@@ -23,8 +8,9 @@ export interface Project {
   githubUrl: string;
   liveUrl: string;
   date: string;
+  featured?: boolean;
   features: {
-    icon: any;
+    iconName: string;
     title: string;
     desc: string;
   }[];
@@ -35,49 +21,26 @@ export const projects: Project[] = [
     slug: 'nextjs-store-project',
     title: 'NextJS Store Project',
     description: 'Modern e-ticaret platformu. Sepet yönetimi, ödeme sistemi ve admin paneli ile kapsamlı çözüm.',
-    fullDescription: `NextJS Store, modern e-ticaret ihtiyaçlarını karşılamak üzere tasarlanmış full-stack bir web uygulamasıdır. 
+    fullDescription: `NextJS Store, modern e-ticaret ihtiyaçlarını karşılamak üzere tasarlanmış full-stack bir web uygulamasıdır.
 Next.js 13+ App Router, TypeScript, Redux Toolkit ve MongoDB teknolojileri kullanılarak geliştirilmiştir.
 
-Proje, kullanıcı dostu arayüzü, güçlü admin paneli, güvenli ödeme sistemi ve gerçek zamanlı sipariş takibi ile 
-kapsamlı bir e-ticaret çözümü sunmaktadır. Server-side rendering (SSR) ve static generation (SSG) ile SEO uyumlu 
+Proje, kullanıcı dostu arayüzü, güçlü admin paneli, güvenli ödeme sistemi ve gerçek zamanlı sipariş takibi ile
+kapsamlı bir e-ticaret çözümü sunmaktadır. Server-side rendering (SSR) ve static generation (SSG) ile SEO uyumlu
 ve yüksek performanslı bir altyapıya sahiptir.`,
     image: 'https://images.unsplash.com/photo-1557821552-17105176677c?w=800&h=600&fit=crop',
     tags: ['Next.js', 'TypeScript', 'Redux Toolkit', 'React', 'Prisma', 'Tailwind CSS'],
+    featured: true,
     githubUrl: 'https://github.com/Emrhn1/NextJS-Store-Project',
     liveUrl: 'https://nextjs-store-demo.vercel.app',
     date: '2025',
     features: [
-      { 
-        icon: ShoppingCart, 
-        title: "Gelişmiş Sepet Sistemi", 
-        desc: "Redux ile yönetilen global state, localStorage persistance ve gerçek zamanlı sepet güncellemeleri." 
-      },
-      { 
-        icon: Payment, 
-        title: "Güvenli Ödeme", 
-        desc: "Stripe entegrasyonu ile güvenli ödeme altyapısı ve çoklu ödeme yöntemi desteği." 
-      },
-      { 
-        icon: LocalShipping, 
-        title: "Sipariş Takibi", 
-        desc: "Gerçek zamanlı sipariş durumu, kargo takibi ve e-posta bildirimleri." 
-      },
-      { 
-        icon: Inventory, 
-        title: "Ürün Yönetimi", 
-        desc: "Detaylı ürün filtreleme, kategori bazlı arama ve stok yönetimi sistemi." 
-      },
-      { 
-        icon: AdminPanelSettings, 
-        title: "Admin Paneli", 
-        desc: "Ürün CRUD işlemleri, sipariş yönetimi ve kullanıcı yönetimi için güçlü admin paneli." 
-      },
-      { 
-        icon: TrendingUp, 
-        title: "Analytics & Raporlama", 
-        desc: "Satış analitiği, kullanıcı davranış takibi ve detaylı raporlama özellikleri." 
-      }
-    ]
+      { iconName: 'ShoppingCart', title: 'Gelişmiş Sepet Sistemi', desc: 'Redux ile yönetilen global state, localStorage persistance ve gerçek zamanlı sepet güncellemeleri.' },
+      { iconName: 'CreditCard', title: 'Güvenli Ödeme', desc: 'Stripe entegrasyonu ile güvenli ödeme altyapısı ve çoklu ödeme yöntemi desteği.' },
+      { iconName: 'Truck', title: 'Sipariş Takibi', desc: 'Gerçek zamanlı sipariş durumu, kargo takibi ve e-posta bildirimleri.' },
+      { iconName: 'Package', title: 'Ürün Yönetimi', desc: 'Detaylı ürün filtreleme, kategori bazlı arama ve stok yönetimi sistemi.' },
+      { iconName: 'ShieldCheck', title: 'Admin Paneli', desc: 'Ürün CRUD işlemleri, sipariş yönetimi ve kullanıcı yönetimi için güçlü admin paneli.' },
+      { iconName: 'TrendingUp', title: 'Analytics & Raporlama', desc: 'Satış analitiği, kullanıcı davranış takibi ve detaylı raporlama özellikleri.' },
+    ],
   },
   {
     slug: 'urun-talep-yonetim-sistemi',
@@ -91,27 +54,11 @@ ve yüksek performanslı bir altyapıya sahiptir.`,
     liveUrl: '#',
     date: '2025',
     features: [
-      { 
-        icon: CategoryIcon, 
-        title: "Gerçek Zamanlı Ürün/Talep Yönetimi", 
-        desc: "Birden fazla kategori altında ürün talep etme ve yönetme." 
-      },
-      { 
-        icon: TuneIcon, 
-        title: "Filtreleme", 
-        desc: "Her bir sayfada gelişmiş filtreleme seçenekleri ile ürün ve talepleri kolayca bulma." 
-      },
-      { 
-        icon: Notifications, 
-        title: "Push Bildirimler", 
-        desc: "Ürün talep edildiğinde ve durum değiştiğinde anlık bildirimler." 
-      },
-      { 
-        icon: Security, 
-        title: "Güvenli İletişim", 
-        desc: "End-to-end encryption ve JWT tabanlı kimlik doğrulama." 
-      }
-    ]
+      { iconName: 'Grid3X3', title: 'Gerçek Zamanlı Ürün/Talep Yönetimi', desc: 'Birden fazla kategori altında ürün talep etme ve yönetme.' },
+      { iconName: 'SlidersHorizontal', title: 'Filtreleme', desc: 'Her bir sayfada gelişmiş filtreleme seçenekleri ile ürün ve talepleri kolayca bulma.' },
+      { iconName: 'Bell', title: 'Push Bildirimler', desc: 'Ürün talep edildiğinde ve durum değiştiğinde anlık bildirimler.' },
+      { iconName: 'Lock', title: 'Güvenli İletişim', desc: 'End-to-end encryption ve JWT tabanlı kimlik doğrulama.' },
+    ],
   },
   {
     slug: 'kisisel-web-sitesi',
@@ -124,56 +71,29 @@ ve yüksek performanslı bir altyapıya sahiptir.`,
     liveUrl: 'https://emrhn1.github.io/',
     date: '2025',
     features: [
-      { 
-        icon: DescriptionIcon, 
-        title: "Ayrıntılı Proje Açıklamaları", 
-        desc: "Her projenin teknolojileri, zorlukları ve çözümleri hakkında detaylı bilgiler." 
-      },
-      { 
-        icon: AutoAwesome, 
-        title: "Responsive Tasarım", 
-        desc: "Mobil ve masaüstü uyumlu, her cihazda mükemmel görünüm." 
-      },
-    ]
+      { iconName: 'FileText', title: 'Ayrıntılı Proje Açıklamaları', desc: 'Her projenin teknolojileri, zorlukları ve çözümleri hakkında detaylı bilgiler.' },
+      { iconName: 'Sparkles', title: 'Responsive Tasarım', desc: 'Mobil ve masaüstü uyumlu, her cihazda mükemmel görünüm.' },
+    ],
   },
   {
     slug: 'Learning-Dashboard',
     title: 'Learning Dashboard',
     description: 'Kullanıcıların öğrendikleri konuları takip edebilecekleri ve ilerlemelerini görebilecekleri bir dashboard uygulaması.',
-    fullDescription: `Learning Dashboard, kullanıcıların öğrenme süreçlerini yönetmelerine yardımcı olan interaktif bir uygulamadır. Kullanıcılar, öğrendikleri konuları ekleyebilir, ilerlemelerini takip edebilir ve öğrenme hedefleri belirleyebilirler. 
+    fullDescription: `Learning Dashboard, kullanıcıların öğrenme süreçlerini yönetmelerine yardımcı olan interaktif bir uygulamadır. Kullanıcılar, öğrendikleri konuları ekleyebilir, ilerlemelerini takip edebilir ve öğrenme hedefleri belirleyebilirler.
     Ayrıca kullanıcılar takıldıkları konuları ekleyip konunun hangi kısmında takıldıklarını da mesaj olarak belirtebilirler`,
-    tags: ["React", "Next.js","Typescript","Redux Toolkit", "Shadcn UI"],
-    image: "https://media.istockphoto.com/id/1954841243/tr/foto%C4%9Fraf/data-analysis-chart-graph-3d-statistics-background.jpg?s=2048x2048&w=is&k=20&c=ezdFnbmakxE2uLDetc-JFrWryW3BGAYQBAp0YR6BuPI=",
+    tags: ['React', 'Next.js', 'Typescript', 'Redux Toolkit', 'Shadcn UI'],
+    featured: true,
+    image: 'https://media.istockphoto.com/id/1954841243/tr/foto%C4%9Fraf/data-analysis-chart-graph-3d-statistics-background.jpg?s=2048x2048&w=is&k=20&c=ezdFnbmakxE2uLDetc-JFrWryW3BGAYQBAp0YR6BuPI=',
     githubUrl: 'https://github.com/Emrhn1/Learning-Dashboard-',
     liveUrl: '#',
     date: '2026',
     features: [
-      { 
-        icon: BarChart, 
-        title: "Active, Stuck ve Completed Durumları", 
-        desc: "Kullanıcının öğrenme sürecini üç farklı durumda takip etme imkanı." 
-      },
-      { 
-        icon: PieChart, 
-        title: "Stuck Konularınınn Takibi", 
-        desc: "Kullanıcıların takıldıkları konuları ekleyip, bu konuların hangi kısmında takıldıklarını mesaj olarak belirtebilme." 
-      },
-      { 
-        icon: ChecklistIcon, 
-        title: "Öğrenilen Konuların Listeleme", 
-        desc: "Kullanıcının o gün öğrendiği konuları yazabilme" 
-      },
-      { 
-        icon: FilterAltIcon, 
-        title: "Konuları Seviye ve Duruma Göre Filtreleme", 
-        desc: "Kullanıcıların konularını seviye (kolay, orta, zor) ve duruma (active, stuck, completed) göre filtreleyebilme." 
-      },
-      {
-        icon: ContrastIcon,
-        title: "Tema Değiştirme",
-        desc: "Kullanıcıların dashboard temasını açık ve koyu mod arasında değiştirebilmesi."
-      }
-    ]
+      { iconName: 'BarChart2', title: 'Active, Stuck ve Completed Durumları', desc: 'Kullanıcının öğrenme sürecini üç farklı durumda takip etme imkanı.' },
+      { iconName: 'PieChart', title: 'Stuck Konularının Takibi', desc: 'Kullanıcıların takıldıkları konuları ekleyip, bu konuların hangi kısmında takıldıklarını mesaj olarak belirtebilme.' },
+      { iconName: 'ClipboardList', title: 'Öğrenilen Konuların Listeleme', desc: 'Kullanıcının o gün öğrendiği konuları yazabilme.' },
+      { iconName: 'Filter', title: 'Konuları Seviye ve Duruma Göre Filtreleme', desc: 'Kullanıcıların konularını seviye (kolay, orta, zor) ve duruma (active, stuck, completed) göre filtreleyebilme.' },
+      { iconName: 'Sun', title: 'Tema Değiştirme', desc: 'Kullanıcıların dashboard temasını açık ve koyu mod arasında değiştirebilmesi.' },
+    ],
   },
   {
     slug: 'dunya-ulkeleri-quiz-uygulamasi',
@@ -186,27 +106,11 @@ ve yüksek performanslı bir altyapıya sahiptir.`,
     liveUrl: '#',
     date: '2025',
     features: [
-      { 
-        icon: PublicIcon, 
-        title: "Dünya Haritası Entegrasyonu", 
-        desc: "Interaktif dünya haritası üzerinde ülkeleri bulma." 
-      },
-      { 
-        icon: AccessTimeIcon, 
-        title: "Süreli Bazlı Oyun Modu", 
-        desc: "Belirli bir süre içinde mümkün olduğunca çok ülke bulma." 
-      },
-      { 
-        icon: EmojiEventsIcon, 
-        title: "Başarımların Takibi", 
-        desc: "Kullanıcıların bildiği ülkeleri ve skorlarını kaydetme." 
-      },
-      { 
-        icon: ZoomInIcon, 
-        title: "İlgili yere yakınlaştırma", 
-        desc: "Harita üzerinde ilgili ülkeye yakınlaştırma ve uzaklaştırma." 
-      }
-    ]
+      { iconName: 'Globe', title: 'Dünya Haritası Entegrasyonu', desc: 'Interaktif dünya haritası üzerinde ülkeleri bulma.' },
+      { iconName: 'Clock', title: 'Süreli Bazlı Oyun Modu', desc: 'Belirli bir süre içinde mümkün olduğunca çok ülke bulma.' },
+      { iconName: 'Trophy', title: 'Başarımların Takibi', desc: 'Kullanıcıların bildiği ülkeleri ve skorlarını kaydetme.' },
+      { iconName: 'ZoomIn', title: 'İlgili yere yakınlaştırma', desc: 'Harita üzerinde ilgili ülkeye yakınlaştırma ve uzaklaştırma.' },
+    ],
   },
   {
     slug: 'coreweb',
@@ -219,27 +123,10 @@ ve yüksek performanslı bir altyapıya sahiptir.`,
     liveUrl: '#',
     date: '2024',
     features: [
-      { 
-        icon: WebAssetIcon, 
-        title: "Çeşitli logo ve Web Sitesi Seçenekleri", 
-        desc: "Farklı sektörlere yönelik logo ve web sitesi tasarım seçenekleri." 
-      },
-      { 
-        icon: BookmarkIcon, 
-        title: "Sipariş Yönetimi", 
-        desc: "Kullanıcıların logo ve web sitesi siparişlerini yönetme." 
-      },
-      { 
-        icon: ShoppingBagIcon, 
-        title: "Sipariş Takibi", 
-        desc: "Kullanıcıların logo ve web sitesi siparişlerini takip etme." 
-      },
-      { 
-        icon: AttachMoneyIcon, 
-        title: "Güvenli Ödeme Altyapısı", 
-        desc: "Güvenli ödeme yöntemleri ile sorunsuz işlem deneyimi." 
-      }
-    ]
-  }
+      { iconName: 'Monitor', title: 'Çeşitli logo ve Web Sitesi Seçenekleri', desc: 'Farklı sektörlere yönelik logo ve web sitesi tasarım seçenekleri.' },
+      { iconName: 'Bookmark', title: 'Sipariş Yönetimi', desc: 'Kullanıcıların logo ve web sitesi siparişlerini yönetme.' },
+      { iconName: 'ShoppingBag', title: 'Sipariş Takibi', desc: 'Kullanıcıların logo ve web sitesi siparişlerini takip etme.' },
+      { iconName: 'DollarSign', title: 'Güvenli Ödeme Altyapısı', desc: 'Güvenli ödeme yöntemleri ile sorunsuz işlem deneyimi.' },
+    ],
+  },
 ];
-
