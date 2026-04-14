@@ -190,7 +190,7 @@ export default function Navbar() {
             ))}
             <div className="mt-2 pt-2 border-t border-terminal-green/20">
               <a
-                href="/emirhan-erkan.pdf"
+                href="/emirhan.pdf"
                 download
                 onClick={() => setMobileOpen(false)}
                 className="flex items-center gap-2 px-3 py-2 text-xs text-[var(--muted)]
