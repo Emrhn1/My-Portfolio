@@ -46,7 +46,7 @@ Modern ve responsive kişisel portföy web sitesi. Next.js 15, React 19, Materia
 
 1. **Projeyi klonlayın**
 ```bash
-git clone https://github.com/Emrhn1/my-react-app.git
+git clone https://github.com/Emrhn1/My-Portfolio
 cd my-react-app
 ```
 
