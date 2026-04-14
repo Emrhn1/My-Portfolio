@@ -101,7 +101,7 @@ export default function Navbar() {
 
             {/* CV download */}
             <a
-              href="/emirhan-erkan.pdf"
+              href="/emirhan.pdf"
               download
               title={t('downloadCV')}
               className="flex items-center gap-1.5 px-3 py-1.5 text-xs text-[var(--muted)]
