@@ -131,5 +131,62 @@
       "linkedin": "LinkedIn",
       "email": "E-posta Gönder"
     }
+  },
+  "projectsData": {
+    "nextjs-store-project": {
+      "fullDescription": "NextJS Store, modern e-ticaret ihtiyaçlarını karşılamak üzere tasarlanmış full-stack bir web uygulamasıdır.\nNext.js 13+ App Router, TypeScript, Redux Toolkit ve MongoDB teknolojileri kullanılarak geliştirilmiştir.\n\nProje, kullanıcı dostu arayüzü, güçlü admin paneli, güvenli ödeme sistemi ve gerçek zamanlı sipariş takibi ile kapsamlı bir e-ticaret çözümü sunmaktadır. Server-side rendering (SSR) ve static generation (SSG) ile SEO uyumlu ve yüksek performanslı bir altyapıya sahiptir.",
+      "features": [
+        { "title": "Gelişmiş Sepet Sistemi", "desc": "Redux ile yönetilen global state, localStorage persistance ve gerçek zamanlı sepet güncellemeleri." },
+        { "title": "Güvenli Ödeme", "desc": "Stripe entegrasyonu ile güvenli ödeme altyapısı ve çoklu ödeme yöntemi desteği." },
+        { "title": "Sipariş Takibi", "desc": "Gerçek zamanlı sipariş durumu, kargo takibi ve e-posta bildirimleri." },
+        { "title": "Ürün Yönetimi", "desc": "Detaylı ürün filtreleme, kategori bazlı arama ve stok yönetimi sistemi." },
+        { "title": "Admin Paneli", "desc": "Ürün CRUD işlemleri, sipariş yönetimi ve kullanıcı yönetimi için güçlü admin paneli." },
+        { "title": "Analytics & Raporlama", "desc": "Satış analitiği, kullanıcı davranış takibi ve detaylı raporlama özellikleri." }
+      ]
+    },
+    "urun-talep-yonetim-sistemi": {
+      "fullDescription": "Kullanıcıların aktif olarak bir ürün talep ederler ve bu taleplerin admin tarafından yönetildiği gerçek zamanlı olarak kabul ya da reddedilir. Ürün yoksa o ürün talep edilemez ya da ürün zaten talep edilmişse aynı ürünü bir daha talep edemez.",
+      "features": [
+        { "title": "Gerçek Zamanlı Ürün/Talep Yönetimi", "desc": "Birden fazla kategori altında ürün talep etme ve yönetme." },
+        { "title": "Filtreleme", "desc": "Her bir sayfada gelişmiş filtreleme seçenekleri ile ürün ve talepleri kolayca bulma." },
+        { "title": "Push Bildirimler", "desc": "Ürün talep edildiğinde ve durum değiştiğinde anlık bildirimler." },
+        { "title": "Güvenli İletişim", "desc": "End-to-end encryption ve JWT tabanlı kimlik doğrulama." }
+      ]
+    },
+    "kisisel-web-sitesi": {
+      "fullDescription": "Kişisel web sitesi, portföy ve blog içeriklerini barındırır. Kullanıcı dostu arayüz ve responsive tasarım ile her cihazda mükemmel görünüm sağlar.",
+      "features": [
+        { "title": "Ayrıntılı Proje Açıklamaları", "desc": "Her projenin teknolojileri, zorlukları ve çözümleri hakkında detaylı bilgiler." },
+        { "title": "Responsive Tasarım", "desc": "Mobil ve masaüstü uyumlu, her cihazda mükemmel görünüm." }
+      ]
+    },
+    "Learning-Dashboard": {
+      "fullDescription": "Learning Dashboard, kullanıcıların öğrenme süreçlerini yönetmelerine yardımcı olan interaktif bir uygulamadır. Kullanıcılar, öğrendikleri konuları ekleyebilir, ilerlemelerini takip edebilir ve öğrenme hedefleri belirleyebilirler.\n    Ayrıca kullanıcılar takıldıkları konuları ekleyip konunun hangi kısmında takıldıklarını da mesaj olarak belirtebilirler.",
+      "features": [
+        { "title": "Active, Stuck ve Completed Durumları", "desc": "Kullanıcının öğrenme sürecini üç farklı durumda takip etme imkanı." },
+        { "title": "Stuck Konularının Takibi", "desc": "Kullanıcıların takıldıkları konuları ekleyip, bu konuların hangi kısmında takıldıklarını mesaj olarak belirtebilme." },
+        { "title": "Öğrenilen Konuların Listeleme", "desc": "Kullanıcının o gün öğrendiği konuları yazabilme." },
+        { "title": "Konuları Seviye ve Duruma Göre Filtreleme", "desc": "Kullanıcıların konularını seviye (kolay, orta, zor) ve duruma (active, stuck, completed) göre filtreleyebilme." },
+        { "title": "Tema Değiştirme", "desc": "Kullanıcıların dashboard temasını açık ve koyu mod arasında değiştirebilmesi." }
+      ]
+    },
+    "dunya-ulkeleri-quiz-uygulamasi": {
+      "fullDescription": "Dünya ülkelerini öğrenmeyi eğlenceli hale getiren interaktif quiz uygulaması. Kullanıcı dünya haritası üzerindeki herhangi bir ülkeyi bilmeye çalışır ve her yazdığı ülkenin coğrafi konumu harita üzerinde gösterilir.",
+      "features": [
+        { "title": "Dünya Haritası Entegrasyonu", "desc": "Interaktif dünya haritası üzerinde ülkeleri bulma." },
+        { "title": "Süreli Bazlı Oyun Modu", "desc": "Belirli bir süre içinde mümkün olduğunca çok ülke bulma." },
+        { "title": "Başarımların Takibi", "desc": "Kullanıcıların bildiği ülkeleri ve skorlarını kaydetme." },
+        { "title": "İlgili yere yakınlaştırma", "desc": "Harita üzerinde ilgili ülkeye yakınlaştırma ve uzaklaştırma." }
+      ]
+    },
+    "coreweb": {
+      "fullDescription": "Coreweb, kullanıcıların profesyonel logo ve web sitesi sipariş edebileceği, adminin ise bu siparişleri yönetebileceği kapsamlı bir platformdur.",
+      "features": [
+        { "title": "Çeşitli logo ve Web Sitesi Seçenekleri", "desc": "Farklı sektörlere yönelik logo ve web sitesi tasarım seçenekleri." },
+        { "title": "Sipariş Yönetimi", "desc": "Kullanıcıların logo ve web sitesi siparişlerini yönetme." },
+        { "title": "Sipariş Takibi", "desc": "Kullanıcıların logo ve web sitesi siparişlerini takip etme." },
+        { "title": "Güvenli Ödeme Altyapısı", "desc": "Güvenli ödeme yöntemleri ile sorunsuz işlem deneyimi." }
+      ]
+    }
   }
 }

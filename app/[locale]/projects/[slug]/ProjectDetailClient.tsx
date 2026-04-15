@@ -68,7 +68,16 @@ function FeatureCard({
 // ── Main client component ─────────────────────────────────────────────────────
 export default function ProjectDetailClient({ project }: { project: Project }) {
   const t = useTranslations('projectDetail');
+  const tData = useTranslations('projectsData');
   const locale = useLocale();
+
+  const slug = project.slug as string;
+  const fullDescription = tData(`${slug}.fullDescription`);
+  const localizedFeatures = project.features.map((feat, i) => ({
+    iconName: feat.iconName,
+    title: tData(`${slug}.features.${i}.title`),
+    desc: tData(`${slug}.features.${i}.desc`),
+  }));
 
   return (
     <div className="min-h-screen bg-[var(--bg)] pt-14 font-[family-name:var(--font-space-mono)]">
@@ -171,7 +180,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
           >
             <p className="text-xs text-terminal-amber mb-3">// {t('about')}</p>
             <p className="text-sm text-[var(--muted)] leading-relaxed whitespace-pre-line">
-              {project.fullDescription}
+              {fullDescription}
             </p>
           </motion.div>
 
@@ -208,11 +217,11 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
         >
           <p className="text-xs text-terminal-amber mb-2">// {t('features')}</p>
           <div className={`grid gap-4 mt-6 ${
-            project.features.length <= 4
+            localizedFeatures.length <= 4
               ? 'sm:grid-cols-2'
               : 'sm:grid-cols-2 lg:grid-cols-3'
           }`}>
-            {project.features.map((feat, i) => (
+            {localizedFeatures.map((feat, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, y: 20 }}

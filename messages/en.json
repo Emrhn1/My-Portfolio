@@ -131,5 +131,62 @@
       "linkedin": "LinkedIn",
       "email": "Send Email"
     }
+  },
+  "projectsData": {
+    "nextjs-store-project": {
+      "fullDescription": "NextJS Store is a full-stack web application designed to meet modern e-commerce needs.\nBuilt with Next.js 13+ App Router, TypeScript, Redux Toolkit and MongoDB.\n\nThe project offers a comprehensive e-commerce solution with a user-friendly interface, powerful admin panel, secure payment system and real-time order tracking. It has a SEO-friendly and high-performance infrastructure with Server-side rendering (SSR) and static generation (SSG).",
+      "features": [
+        { "title": "Advanced Cart System", "desc": "Global state managed with Redux, localStorage persistence and real-time cart updates." },
+        { "title": "Secure Payment", "desc": "Secure payment infrastructure with Stripe integration and multi-payment method support." },
+        { "title": "Order Tracking", "desc": "Real-time order status, shipping tracking and email notifications." },
+        { "title": "Product Management", "desc": "Detailed product filtering, category-based search and inventory management system." },
+        { "title": "Admin Panel", "desc": "Powerful admin panel for product CRUD operations, order management and user management." },
+        { "title": "Analytics & Reporting", "desc": "Sales analytics, user behavior tracking and detailed reporting features." }
+      ]
+    },
+    "urun-talep-yonetim-sistemi": {
+      "fullDescription": "Users actively request products and these requests are managed by the admin, who can accept or reject them in real time. If a product doesn't exist, it cannot be requested, and if a product has already been requested, the same product cannot be requested again.",
+      "features": [
+        { "title": "Real-Time Product/Request Management", "desc": "Request and manage products under multiple categories." },
+        { "title": "Filtering", "desc": "Easily find products and requests on each page with advanced filtering options." },
+        { "title": "Push Notifications", "desc": "Instant notifications when a product is requested and when status changes." },
+        { "title": "Secure Communication", "desc": "End-to-end encryption and JWT-based authentication." }
+      ]
+    },
+    "kisisel-web-sitesi": {
+      "fullDescription": "A personal website hosting portfolio and blog content. Provides a perfect appearance on every device with a user-friendly interface and responsive design.",
+      "features": [
+        { "title": "Detailed Project Descriptions", "desc": "Detailed information about the technologies, challenges and solutions of each project." },
+        { "title": "Responsive Design", "desc": "Mobile and desktop compatible, perfect appearance on every device." }
+      ]
+    },
+    "Learning-Dashboard": {
+      "fullDescription": "Learning Dashboard is an interactive application that helps users manage their learning processes. Users can add topics they've learned, track their progress, and set learning goals.\n    Additionally, users can add topics they're stuck on and specify which part of the topic they're stuck on as a message.",
+      "features": [
+        { "title": "Active, Stuck and Completed States", "desc": "Ability to track the user's learning process in three different states." },
+        { "title": "Tracking Stuck Topics", "desc": "Users can add topics they're stuck on and specify which part they're stuck on as a message." },
+        { "title": "Listing Learned Topics", "desc": "Users can write the topics they learned that day." },
+        { "title": "Filtering by Level and Status", "desc": "Users can filter their topics by level (easy, medium, hard) and status (active, stuck, completed)." },
+        { "title": "Theme Toggle", "desc": "Users can switch the dashboard theme between light and dark mode." }
+      ]
+    },
+    "dunya-ulkeleri-quiz-uygulamasi": {
+      "fullDescription": "An interactive quiz application that makes learning world countries fun. The user tries to guess any country on the world map and the geographical location of each country they type is shown on the map.",
+      "features": [
+        { "title": "World Map Integration", "desc": "Finding countries on an interactive world map." },
+        { "title": "Time-Based Game Mode", "desc": "Finding as many countries as possible within a certain time." },
+        { "title": "Achievement Tracking", "desc": "Saving countries the user knows and their scores." },
+        { "title": "Zoom to Location", "desc": "Zooming in and out on the relevant country on the map." }
+      ]
+    },
+    "coreweb": {
+      "fullDescription": "Coreweb is a comprehensive platform where users can order professional logos and websites, and admins can manage these orders.",
+      "features": [
+        { "title": "Various Logo and Website Options", "desc": "Logo and website design options for different sectors." },
+        { "title": "Order Management", "desc": "Managing users' logo and website orders." },
+        { "title": "Order Tracking", "desc": "Tracking users' logo and website orders." },
+        { "title": "Secure Payment Infrastructure", "desc": "Seamless transaction experience with secure payment methods." }
+      ]
+    }
   }
 }
