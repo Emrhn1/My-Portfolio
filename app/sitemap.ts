@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next';
 import { projects } from './projects';
 
-const baseUrl = 'https://emirhan-erkan.vercel.app';
+const baseUrl = 'https://www.emirhanerkan.com';
 const locales = ['tr', 'en'] as const;
 
 export default function sitemap(): MetadataRoute.Sitemap {
