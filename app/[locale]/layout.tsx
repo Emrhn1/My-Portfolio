@@ -13,7 +13,7 @@ import PageTransition from '../components/PageTransition';
 import '../globals.css';
 
 const routing = { locales: ['tr', 'en'] as const };
-const baseUrl = 'https://emirhan-erkan.vercel.app';
+const baseUrl = 'https://www.emirhanerkan.com';
 
 const spaceMono = Space_Mono({
   weight: ['400', '700'],
