@@ -34,7 +34,9 @@ function ProjectCard({
   t: ReturnType<typeof useTranslations>;
   featured?: boolean;
 }) {
+  const tData = useTranslations('projectsData');
   const href = `/${locale}/projects/${project.slug}`;
+  const description = tData(`${project.slug}.description`);
   const hasLive = project.liveUrl !== '#';
 
   return (
@@ -77,7 +79,7 @@ function ProjectCard({
           {project.title}
         </h3>
         <p className={`text-xs text-[var(--muted)] leading-relaxed ${featured ? 'line-clamp-3' : 'line-clamp-2'}`}>
-          {project.description}
+          {description}
         </p>
         <div className="flex flex-wrap gap-1 pt-1">
           {project.tags.slice(0, featured ? project.tags.length : 3).map((tag) => (

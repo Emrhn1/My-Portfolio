@@ -134,6 +134,7 @@
   },
   "projectsData": {
     "nextjs-store-project": {
+      "description": "Modern e-commerce platform. Comprehensive solution with cart management, payment system and admin panel.",
       "fullDescription": "NextJS Store is a full-stack web application designed to meet modern e-commerce needs.\nBuilt with Next.js 13+ App Router, TypeScript, Redux Toolkit and MongoDB.\n\nThe project offers a comprehensive e-commerce solution with a user-friendly interface, powerful admin panel, secure payment system and real-time order tracking. It has a SEO-friendly and high-performance infrastructure with Server-side rendering (SSR) and static generation (SSG).",
       "features": [
         { "title": "Advanced Cart System", "desc": "Global state managed with Redux, localStorage persistence and real-time cart updates." },
@@ -145,6 +146,7 @@
       ]
     },
     "urun-talep-yonetim-sistemi": {
+      "description": "A web application with admin and user pages where users request products and admins approve or reject them.",
       "fullDescription": "Users actively request products and these requests are managed by the admin, who can accept or reject them in real time. If a product doesn't exist, it cannot be requested, and if a product has already been requested, the same product cannot be requested again.",
       "features": [
         { "title": "Real-Time Product/Request Management", "desc": "Request and manage products under multiple categories." },
@@ -154,6 +156,7 @@
       ]
     },
     "kisisel-web-sitesi": {
+      "description": "Personal website with portfolio and blog. Projects, articles and contact form.",
       "fullDescription": "A personal website hosting portfolio and blog content. Provides a perfect appearance on every device with a user-friendly interface and responsive design.",
       "features": [
         { "title": "Detailed Project Descriptions", "desc": "Detailed information about the technologies, challenges and solutions of each project." },
@@ -161,6 +164,7 @@
       ]
     },
     "Learning-Dashboard": {
+      "description": "A dashboard application where users can track the topics they've learned and see their progress.",
       "fullDescription": "Learning Dashboard is an interactive application that helps users manage their learning processes. Users can add topics they've learned, track their progress, and set learning goals.\n    Additionally, users can add topics they're stuck on and specify which part of the topic they're stuck on as a message.",
       "features": [
         { "title": "Active, Stuck and Completed States", "desc": "Ability to track the user's learning process in three different states." },
@@ -171,6 +175,7 @@
       ]
     },
     "dunya-ulkeleri-quiz-uygulamasi": {
+      "description": "A quiz application focused on finding world countries on a map.",
       "fullDescription": "An interactive quiz application that makes learning world countries fun. The user tries to guess any country on the world map and the geographical location of each country they type is shown on the map.",
       "features": [
         { "title": "World Map Integration", "desc": "Finding countries on an interactive world map." },
@@ -180,6 +185,7 @@
       ]
     },
     "coreweb": {
+      "description": "A platform where users can order logos and websites, and admins can manage these orders.",
       "fullDescription": "Coreweb is a comprehensive platform where users can order professional logos and websites, and admins can manage these orders.",
       "features": [
         { "title": "Various Logo and Website Options", "desc": "Logo and website design options for different sectors." },
