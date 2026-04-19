@@ -1,10 +1,11 @@
 'use client';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useTranslations } from 'next-intl';
 import { Mail, Phone, MapPin, Clock, Send, Loader2, CheckCircle2, XCircle } from 'lucide-react';
+import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
 
 // ── Zod schema ────────────────────────────────────────────────────────────────
 const schema = z.object({
@@ -65,6 +66,8 @@ const contactInfo = [
 export default function Contact() {
   const t = useTranslations('contact');
   const [status, setStatus] = useState<'idle' | 'ok' | 'err'>('idle');
+  const turnstileRef = useRef<TurnstileInstance>(null);
+  const [cfToken, setCfToken] = useState<string | null>(null);
 
   const {
     register,
@@ -74,21 +77,28 @@ export default function Contact() {
   } = useForm<FormValues>({ resolver: zodResolver(schema) });
 
   const onSubmit = async (data: FormValues) => {
+    if (!cfToken) return;
     setStatus('idle');
     try {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ ...data, cfToken }),
       });
       if (res.ok) {
         setStatus('ok');
         reset();
+        turnstileRef.current?.reset();
+        setCfToken(null);
       } else {
         setStatus('err');
+        turnstileRef.current?.reset();
+        setCfToken(null);
       }
     } catch {
       setStatus('err');
+      turnstileRef.current?.reset();
+      setCfToken(null);
     }
   };
 
@@ -229,10 +239,20 @@ export default function Contact() {
                 </div>
               )}
 
+              {/* Turnstile */}
+              <Turnstile
+                ref={turnstileRef}
+                siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
+                onSuccess={setCfToken}
+                onExpire={() => setCfToken(null)}
+                onError={() => setCfToken(null)}
+                options={{ theme: 'dark', size: 'normal' }}
+              />
+
               {/* Submit */}
               <button
                 type="submit"
-                disabled={isSubmitting}
+                disabled={isSubmitting || !cfToken}
                 className="flex items-center justify-center gap-2 py-2.5 rounded border
                            border-terminal-green/40 bg-terminal-green/10 text-terminal-green text-xs
                            hover:bg-terminal-green/20 hover:border-terminal-green/60

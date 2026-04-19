@@ -19,13 +19,51 @@ const transporter = nodemailer.createTransport({
   socketTimeout: 10000,
 });
 
+async function verifyTurnstile(token: string, ip: string | null): Promise<boolean> {
+  const secret = process.env.TURNSTILE_SECRET_KEY;
+  if (!secret) {
+    console.error('[Turnstile] TURNSTILE_SECRET_KEY is not set');
+    return false;
+  }
+  const body = new URLSearchParams({
+    secret,
+    response: token,
+    ...(ip ? { remoteip: ip } : {}),
+  });
+  const res = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+    method: 'POST',
+    body,
+  });
+  const data = await res.json() as { success: boolean; 'error-codes'?: string[] };
+  if (!data.success) {
+    console.error('[Turnstile] verification failed:', data['error-codes']);
+  }
+  return data.success;
+}
+
 export async function POST(request: Request) {
   try {
-    const { name, email, subject, message } = await request.json();
+    const { name, email, subject, message, cfToken } = await request.json();
 
     if (!name || !email || !subject || !message) {
       return NextResponse.json(
         { error: 'Lütfen tüm alanları doldurun.' },
+        { status: 400 }
+      );
+    }
+
+    if (!cfToken) {
+      return NextResponse.json(
+        { error: 'Captcha doğrulaması gerekli.' },
+        { status: 400 }
+      );
+    }
+
+    const ip = request.headers.get('cf-connecting-ip') ?? request.headers.get('x-forwarded-for');
+    const valid = await verifyTurnstile(cfToken, ip);
+    if (!valid) {
+      return NextResponse.json(
+        { error: 'Captcha doğrulaması başarısız.' },
         { status: 400 }
       );
     }
@@ -52,9 +90,10 @@ export async function POST(request: Request) {
       { status: 200 }
     );
   } catch (error) {
-    console.error('Email gönderim hatası:', error);
+    console.error('[/api/contact] error:', error);
+    const message = error instanceof Error ? error.message : 'unknown';
     return NextResponse.json(
-      { error: 'Mesaj gönderilirken bir hata oluştu. Lütfen tekrar deneyin.' },
+      { error: 'Mesaj gönderilirken bir hata oluştu. Lütfen tekrar deneyin.', detail: message },
       { status: 500 }
     );
   }
