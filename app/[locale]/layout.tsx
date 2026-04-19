@@ -65,12 +65,25 @@ export async function generateMetadata({
       siteName: 'Emirhan Erkan',
       locale: isTr ? 'tr_TR' : 'en_US',
       alternateLocale: isTr ? 'en_US' : 'tr_TR',
+      images: [
+        {
+          url: `${baseUrl}/${locale}/opengraph-image`,
+          width: 1200,
+          height: 630,
+          alt: 'Emirhan Erkan — Frontend Developer',
+        },
+      ],
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description,
       creator: '@emirhanerkan',
+      images: [`${baseUrl}/${locale}/opengraph-image`],
+    },
+    icons: {
+      icon: '/icon.svg',
+      shortcut: '/icon.svg',
     },
     robots: {
       index: true,
