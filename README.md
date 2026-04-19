@@ -1,82 +1,96 @@
-# 🚀 Emirhan Erkan - Portfolio Website
+# Emirhan Erkan — Portfolio
 
-Modern ve responsive kişisel portföy web sitesi. Next.js 15, React 19, Material-UI v7 ve TypeScript kullanılarak geliştirilmiştir.
+Terminal estetiğinde, çok dilli (TR/EN), tam responsive kişisel portföy sitesi. Next.js 16 App Router, React 19 ve TypeScript ile geliştirildi.
 
-![Next.js](https://img.shields.io/badge/Next.js-15.0-black?style=for-the-badge&logo=next.js)
-![React](https://img.shields.io/badge/React-19.0-blue?style=for-the-badge&logo=react)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=for-the-badge&logo=typescript)
-![MUI](https://img.shields.io/badge/MUI-7.3-007FFF?style=for-the-badge&logo=mui)
+**Canlı:** [emirhanerkan.com](https://www.emirhanerkan.com)
 
-## ✨ Özellikler
+![Next.js](https://img.shields.io/badge/Next.js-16-black?style=for-the-badge&logo=next.js)
+![React](https://img.shields.io/badge/React-19-blue?style=for-the-badge&logo=react)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-38BDF8?style=for-the-badge&logo=tailwindcss)
 
-- 🎨 **Modern UI/UX**: Material-UI v7 ile şık ve kullanıcı dostu arayüz
-- 🌓 **Dark/Light Mode**: Tema değiştirme özelliği
-- 📱 **Responsive Tasarım**: Tüm cihazlarda kusursuz görünüm
-- ⚡ **Yüksek Performans**: Next.js 15 App Router ile optimize edilmiş
-- 🎭 **Animasyonlar**: Framer Motion ile etkileyici animasyonlar
-- 📧 **İletişim Formu**: Nodemailer ile çalışan email gönderme sistemi
-- 🎯 **SEO Optimize**: Meta tags ve Open Graph desteği
-- 🔥 **React Bits Components**: SpotlightCard, TiltCard, SplitText gibi özel animasyon bileşenleri
+---
 
-## 🛠️ Teknolojiler
+## Özellikler
 
-### Frontend
-- **Next.js 15** - React framework (App Router)
-- **React 19** - UI kütüphanesi
-- **TypeScript** - Type safety
-- **Material-UI v7** - UI component kütüphanesi
-- **Tailwind CSS v4** - Utility-first CSS
-- **Framer Motion** - Animasyon kütüphanesi
+- **Terminal temalı tasarım** — Monospace tipografi (Space Mono + JetBrains Mono), komut satırı esintili UI
+- **Çok dilli (i18n)** — `next-intl` ile Türkçe ve İngilizce, locale-aware metadata ve hreflang
+- **Dark / Light mode** — `next-themes` ile sistem tercihini takip eden tema desteği
+- **Command Palette** — `cmdk` tabanlı `Ctrl/Cmd + K` ile hızlı gezinme
+- **Animasyonlar** — Framer Motion ile sayfa geçişleri, SplitText, TiltCard, SpotlightCard
+- **Proje detay sayfaları** — Dinamik route'lar (`/[locale]/projects/[slug]`) ile her proje için özel sayfa
+- **İletişim formu** — React Hook Form + Zod validasyonu, Nodemailer ile e-posta gönderimi
+- **Spam koruması** — Cloudflare Turnstile ile CAPTCHA doğrulaması
+- **SEO** — Locale-aware metadata, Open Graph, Twitter Card, sitemap (`next-sitemap`), robots
+- **Dinamik OG image** — `app/[locale]/opengraph-image.tsx` ile 1200×630 sosyal medya önizlemesi
+- **Analytics** — Vercel Analytics entegrasyonu
+- **Accessibility** — Skip-to-content linki, semantik HTML
 
-### Backend & API
-- **Next.js API Routes** - Serverless API
-- **Nodemailer** - Email gönderimi
+## Teknoloji Stack
 
-### Development Tools
-- **ESLint** - Code linting
-- **Prettier** - Code formatting
+### Core
+- **Next.js 16** (App Router, Turbopack)
+- **React 19**
+- **TypeScript 5**
 
-## 📦 Kurulum
+### UI & Styling
+- **Tailwind CSS v4** — utility-first styling
+- **Framer Motion** — animasyonlar
+- **Lucide React** — icon seti
+- **tw-animate-css** — hazır animasyon yardımcıları
 
-### Gereksinimler
-- Node.js 18+ 
-- npm veya yarn
+### Forms & Validation
+- **React Hook Form** — form state yönetimi
+- **Zod** — schema validasyonu
+- **@hookform/resolvers** — Zod ↔ RHF entegrasyonu
 
-### Adımlar
+### i18n & Theme
+- **next-intl** — çok dilli içerik
+- **next-themes** — tema yönetimi
 
-1. **Projeyi klonlayın**
-```bash
-git clone https://github.com/Emrhn1/My-Portfolio
-cd my-react-app
+### Backend
+- **Next.js API Routes** — serverless endpoint (`/api/contact`)
+- **Nodemailer** — SMTP üzerinden e-posta
+- **@marsidev/react-turnstile** — Cloudflare Turnstile React wrapper
+
+### UX
+- **cmdk** — command palette
+- **vaul** — mobile drawer
+
+
+---
+
+## Proje Yapısı
+
+```
+app/
+├── [locale]/                    # Locale-aware sayfalar (tr, en)
+│   ├── layout.tsx               # Metadata, providers, html/body
+│   ├── page.tsx                 # Ana sayfa
+│   ├── opengraph-image.tsx      # Dinamik OG görseli
+│   └── projects/[slug]/         # Proje detay sayfaları
+├── api/
+│   └── contact/route.ts         # İletişim formu + Turnstile verify
+├── components/                  # UI bileşenleri
+│   ├── Hero, About, Projects, SkillMatrix, Contact, Footer
+│   ├── Navbar, CommandPalette, PageTransition
+│   └── TiltCard, SpotLightCard, SplitText
+├── layout.tsx                   # Root shell
+├── icon.svg                     # Site favicon
+└── globals.css                  # Global stiller
+
+messages/                        # i18n çevirileri
+├── tr.json
+└── en.json
 ```
 
-2. **Bağımlılıkları yükleyin**
-```bash
-npm install
-# veya
-yarn install
-```
+---
 
-3. **Geliştirme sunucusunu başlatın**
-```bash
-npm run dev
-# veya
-yarn dev
-```
+## Lisans
 
-Tarayıcınızda [http://localhost:3000](http://localhost:3000) adresini açın.
+Bu proje kişisel portföy amaçlıdır. Tasarım ve içerik koruma altındadır; kod parçaları referans amaçlı incelenebilir.
 
-## Öğrenme Kaynakları
+## İletişim
 
-Next.js hakkında daha fazla bilgi edinmek için aşağıdaki kaynaklara göz atın:
-
-- [Next.js Documentation](https://nextjs.org/docs) - Next.js özellikleri ve API'si hakkında bilgi edinin.
-- [Learn Next.js](https://nextjs.org/learn) - Etkileşimli bir Next.js eğitimi.
-
-Ayrıca [Next.js GitHub deposunu](https://github.com/vercel/next.js) ziyaret edebilirsiniz - geri bildirimleriniz ve katkılarınız için açığız!
-
-## Vercel'de Yayınlama
-
-Next.js uygulamanızı dağıtmanın en kolay yolu, Next.js'in yaratıcıları tarafından sunulan [Vercel Platformu](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme)nu kullanmaktır.
-
-Daha fazla ayrıntı için [Next.js dağıtım belgelerimize](https://nextjs.org/docs/app/building-your-application/deploying) göz atın.
+- **Web:** [emirhanerkan.com](https://www.emirhanerkan.com)
+- **E-posta:** oyuncut80@gmail.com
