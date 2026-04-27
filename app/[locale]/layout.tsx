@@ -67,9 +67,9 @@ export async function generateMetadata({
       alternateLocale: isTr ? 'en_US' : 'tr_TR',
       images: [
         {
-          url: `${baseUrl}/${locale}/opengraph-image`,
-          width: 1200,
-          height: 630,
+          url: `${baseUrl}/myimage.jpeg`,
+          width: 800,
+          height: 800,
           alt: 'Emirhan Erkan — Frontend Developer',
         },
       ],
@@ -79,7 +79,7 @@ export async function generateMetadata({
       title,
       description,
       creator: '@emirhanerkan',
-      images: [`${baseUrl}/${locale}/opengraph-image`],
+      images: [`${baseUrl}/myimage.jpeg`],
     },
     icons: {
       icon: '/icon.svg',
