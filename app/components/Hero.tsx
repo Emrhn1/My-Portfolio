@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useTranslations } from 'next-intl';
 import { useTheme } from 'next-themes';
 import { Github, Linkedin, Mail } from 'lucide-react';
+import Image from 'next/image';
 
 // ── Code Rain ────────────────────────────────────────────────────────────────
 const RAIN_CHARS = '01アイウエ<>{}[]()=>;+-*/:.'.split('');
@@ -147,7 +148,9 @@ export default function Hero() {
       <div className="absolute inset-0 pointer-events-none
                       bg-gradient-to-b from-[var(--bg)]/70 via-[var(--bg)]/30 to-[var(--bg)]/70" />
 
-      <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 w-full py-20">
+      <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 w-full py-20 flex flex-col lg:flex-row items-center gap-10 lg:gap-14">
+
+      <div className="flex-1 min-w-0">
 
         {/* Prompt line */}
         <p className="flex items-center gap-1.5 text-xs text-[var(--muted)] mb-8">
@@ -248,6 +251,24 @@ export default function Hero() {
             </a>
           ))}
         </div>
+
+      </div>{/* end flex-1 content col */}
+
+      {/* Profile photo */}
+      <div className="flex shrink-0 items-center justify-center order-first lg:order-last">
+        <div className="relative w-64 h-64 sm:w-72 sm:h-72 lg:w-80 lg:h-80 rounded-full overflow-hidden
+                        border-2 border-terminal-green/40
+                        ring-4 ring-terminal-green/10">
+          <Image
+            src="/myimage.jpeg"
+            alt="Emirhan Erkan"
+            fill
+            sizes="(min-width: 1024px) 320px, (min-width: 640px) 288px, 256px"
+            className="object-cover"
+            priority
+          />
+        </div>
+      </div>
 
       </div>
     </section>
